@@ -8,6 +8,8 @@ class ArticleCategory(models.Model):
     description = models.TextField()
 
     class Meta:
+        verbose_name = "Article category"
+        verbose_name_plural = "Article categories"
         ordering = ['name']
         unique_together = ['name']
 
