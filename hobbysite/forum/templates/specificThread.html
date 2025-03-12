@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Forums {% endblock %}
+{% block title %} Forum - {{ thread.category }} {% endblock %}
 
 {% block content %}
+    <h2> {{ thread.title }} </h2>
+    <p> Post Created on: {{ thread.createdOn }} | Post Updated on: {{ thread.updatedOn }}</p>
+    <p> {{ thread.entry }} </p>
     <a href="{% url 'forum:getForumCategories' %}">Back</a>
 {% endblock %}
