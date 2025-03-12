@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -29,3 +31,24 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-createdOn']
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    createdOn = models.DateTimeField(auto_now_add=True)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    createdOn = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.author.username
+    
+    class Meta:
+        ordering = ['-createdOn']
+    
+    def save(self, *args, **kwargs):
+        self.post.updatedOn = now()
+        self.post.save(update_fields=['updatedOn'])
+        super().save(*args, **kwargs)
