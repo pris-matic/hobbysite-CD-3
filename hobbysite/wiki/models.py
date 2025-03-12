@@ -13,8 +13,8 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    entry = models.TextField()
     category = models.ForeignKey(ArticleCategory, on_delete=models.SET_NULL, related_name='article')
+    entry = models.TextField()
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
 
