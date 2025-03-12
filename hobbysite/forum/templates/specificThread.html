@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Forums {% endblock %}
+
+{% block content %}
+    <a href="{% url 'forum:getForumCategories' %}">Back</a>
+{% endblock %}
