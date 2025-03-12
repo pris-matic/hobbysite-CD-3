@@ -3,17 +3,10 @@ from .models import Article, ArticleCategory
 
 # Register your models here.
 
-class ArticleInline(admin.TabularInline):
-    model = Article
-    fields = ['title','category']
-
 class ArticleCategoryAdmin(admin.ModelAdmin):
     model = ArticleCategory
     search_fields = ('name',)
     list_display = ('name', 'description')
-    inlines = [
-            ArticleInline,
-            ]
 
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
