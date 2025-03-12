@@ -13,6 +13,9 @@ class ArticleCategory(models.Model):
         ordering = ['name']
         unique_together = ['name']
 
+    def __str__(self):
+        return self.name
+
 class Article(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(ArticleCategory, null=True, on_delete=models.SET_NULL, related_name='article')
@@ -24,3 +27,5 @@ class Article(models.Model):
         ordering = ['-created_on']
         unique_together = [['title','created_on']]
 
+    def __str__(self):
+        return self.title
