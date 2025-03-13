@@ -8,7 +8,7 @@
         {% for article in category.article_set.all %}
             <ul>
                 <li> 
-                    <strong> {{ article.title }} </strong>
+                    <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
                     <small> Created on: {{ article.created_on }} | Last updated: {{ article.updated_on }} </small>
                 </li>
             </ul>
