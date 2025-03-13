@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Details{% endblock %}
+
+{% block content %}
+    <h1>{{ commission.title }}</h1>
+    <ul>
+        <li>Description: {{ commission.description }}</li>
+        <li>People Required: {{ commission.people_required }}</li>
+        <li>Created On: {{ commission.created_on }}</li>
+        <li>Last Updated: {{ commission.updated_on }}</li>
+    </ul>
+
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in commission.comments.all %}
+            <li>{{ comment.entry }}</li>
+            <li>Created On: {{ comment.created_on }}</li>
+            <li>Last Updated: {{ comment.updated_on }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
