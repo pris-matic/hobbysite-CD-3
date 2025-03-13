@@ -7,6 +7,6 @@ def article_categories_list(request):
     categories = ArticleCategory.objects.all()
     return render(request, 'categories_list.html', {'categories': categories})
 
-def article(request):
-    articles = Article.objects.all()
-    return render(request, 'article.html', {'articles': articles})
+def article(request, key):
+    article = Article.objects.get(id=key)
+    return render(request, 'article.html', {'article': article})
