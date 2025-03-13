@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Commissions{% endblock title%}
+
+{% block content %}
+    <h2>Commissions: </h2>
+    {% if commisions %}
+        <ol>
+            {% for commission in commissions %}
+            <li>
+                <div>
+                    <p>Link: <a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></p>
+                    <p><b>Created On: </b> {{ commission.created_on }} <b>Modified On: </b> {{commission.updated_on}}</p>
+                    <p>{{ commission.description }}</p>
+                    <p><b>People Required:</b> {{ commission.people_required }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+    <p>
+        There are no commissions.
+    </p>
+    {% endif %}
+{% endblock  %}
