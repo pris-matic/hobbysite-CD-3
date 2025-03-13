@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
-{% block title %} Blog Categories {% endblock %}
+{% block title %} Blog Articles {% endblock %}
 {% block content %}
+    <h1> Blog Articles </h1>
     <ul>
     {% for category in categories %}
-        <li> {{ category.name }} </li>
+        <h2> {{ category.name }} </h2>
+        {% for article in category.article_set.all %}
+            <ul>
+                <li> 
+                    <strong> {{ article.title }} </strong>
+                    <small> Created on: {{ article.created_on }} | Last updated: {{ article.updated_on }} </small>
+                </li>
+            </ul>
+        {% endfor %}
     {% endfor %}
     </ul>
 {% endblock %}
