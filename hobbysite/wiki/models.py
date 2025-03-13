@@ -11,7 +11,6 @@ class ArticleCategory(models.Model):
         verbose_name = "Article category"
         verbose_name_plural = "Article categories"
         ordering = ['name']
-        unique_together = ['name']
 
     def __str__(self):
         return self.name
@@ -25,7 +24,6 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-created_on']
-        unique_together = [['title','created_on']]
 
     def __str__(self):
         return self.title
