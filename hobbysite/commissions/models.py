@@ -9,17 +9,24 @@ class Commission(models.Model):
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         ordering = ['created_on']
 
 class Comment(models.Model):
     commission = models.ForeignKey(
         Commission,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='comments'
     )
     entry = models.TextField()
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"Comment found in {self.commission.title}, created on {self.created_on.strftime('%d-%m-%Y')}"
 
     class Meta:
         ordering = ['-created_on']
