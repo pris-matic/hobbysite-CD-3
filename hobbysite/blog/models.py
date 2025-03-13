@@ -7,8 +7,12 @@ class ArticleCategory(models.Model):
     description = models.TextField()
 
     class Meta:
-        verbose_name = "Article Category"
-        verbose_name_plural = "Article Categories"
+        verbose_name = 'Article Category'
+        verbose_name_plural = 'Article Categories'
+        ordering = ['name']
+        
+    def __str__(self):
+        return self.name
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
@@ -16,3 +20,9 @@ class Article(models.Model):
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_on']
+    
+    def __str__(self):
+        return self.title
