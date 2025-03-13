@@ -1,14 +1,13 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-from .models import PostCategory, Post, Profile, Comment
+from .models import PostCategory, Post
 
 # Register your models here.
 
 class PostInline(admin.TabularInline):
     model = Post
     extra = 0
-    fields = ('title', 'createdOn', 'updatedOn') 
-    readonly_fields = ('createdOn', 'updatedOn')  
+    fields = ('title', 'created_on', 'updated_on') 
+    readonly_fields = ('created_on', 'updated_on')  
 
 class PostCategoryAdmin(admin.ModelAdmin):
     model = PostCategory
@@ -21,28 +20,10 @@ class PostCategoryAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     model = Post
 
-    list_display = ('title', 'category', 'createdOn', 'updatedOn',)
+    list_display = ('title', 'category', 'created_on', 'updated_on',)
     list_filter = ('category',)
     search_fields =('category__name',)
-    readonly_fields = ('createdOn', 'updatedOn') 
-
-class ProfileInline(admin.StackedInline):
-	model = Profile
-	can_delete = False
-
-class UserAdmin(admin.ModelAdmin):
-	inlines = [ProfileInline]
-      
-class CommentAdmin(admin.ModelAdmin):
-    model = Comment
-
-    list_display = ('author', 'post', 'createdOn',)
-    list_filter = ('author', 'post',)
-    readonly_fields = ('createdOn',)
+    readonly_fields = ('created_on', 'updated_on') 
 
 admin.site.register(PostCategory,PostCategoryAdmin)
 admin.site.register(Post,PostAdmin)
-admin.site.register(Comment,CommentAdmin)
-
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
