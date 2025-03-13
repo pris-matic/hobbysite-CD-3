@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %} Forums {% endblock %}
+{% block title %} Forum {% endblock %}
 
 {% block content %}
     {% for category in categories %}
     <h2>{{ category.name }}</h2>
     <ul>
         {% for post in category.post_set.all %}
-        <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        <li><a href="{{ post.get_absolute_url }}">{{ post.title }} | {{ post.created_on }} </a></li>
         {% endfor %}
     </ul>
     {% endfor %}
