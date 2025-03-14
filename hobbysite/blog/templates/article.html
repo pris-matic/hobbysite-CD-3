@@ -7,6 +7,6 @@
     Created on {{ article.created_on }} 
     Last updated {{ article.updated_on }}
 </h6>
-<p> {{ article.entry }} </p>
-<p> <a href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a> </p>
+    <p> {{ article.entry|linebreaks }} </p>
+<small> <a href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a> </small>
 {% endblock %}
