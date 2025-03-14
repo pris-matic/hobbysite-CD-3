@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Merchandise Store {% endblock %}
+
+{% block content %}
+    <h2>{{ Items: }}</h2>
+    <ul>
+        {% for item in items %}
+            <li>
+                <a href="{{ item.get_absolute_url }}">{{ item.name }} </a> <br>
+                {{ item.description }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
