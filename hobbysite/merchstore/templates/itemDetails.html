@@ -9,7 +9,7 @@
         {% for product in item.products.all %}
             <li>
                 {{ product.name }} - USD{{ product.price }} <br>
-                {{ item.description }}
+                {{ product.description }}
             </li>
         {% endfor %}
     </ul>
