@@ -8,7 +8,7 @@
     <ul>
         {% for item in items %}
             <li>
-                <a href="{{ item.get_absolute_url }}">{{ item.name }} </a> <br>
+                <a href="{% url 'merchstore:item_details' item.id %}">{{ item.name }} </a> <br>
                 {{ item.description }}
             </li>
         {% endfor %}
