@@ -7,5 +7,5 @@
     <h2> {{ thread.title }} </h2>
     <p> Post Created on: {{ thread.created_on }} | Post Updated on: {{ thread.updated_on }}</p>
     <p> {{ thread.entry }} </p>
-    <a href="{% url 'forum:getForumCategories' %}">Back</a>
+    <a href="{% url 'forum:get_forum_categories' %}">Back</a>
 {% endblock %}

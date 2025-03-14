@@ -22,7 +22,7 @@ class Post(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def get_absolute_url(self):
-        return reverse('forum:getForumThread',args=[self.pk])
+        return reverse('forum:get_forum_thread',args=[self.pk])
 
     def __str__(self):
         return self.title
