@@ -5,7 +5,7 @@ from .models import Article, ArticleCategory
 
 def articles_list(request):
     categories = ArticleCategory.objects.all()
-    return render(request, 'wiki/articles_list.html', {'categories':categories})
+    return render(request, 'wiki/articlesList.html', {'categories':categories})
 
 def article_detail(request, key):
-    return render(request, 'wiki/article_detail.html', {'article': Article.objects.get(id=key)})
+    return render(request, 'wiki/articleDetail.html', {'article': Article.objects.get(id=key)})
