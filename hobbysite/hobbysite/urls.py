@@ -1,7 +1,11 @@
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 
 urlpatterns = [
-    path('merchstore/', include('merchstore.urls')),
     path('admin/', admin.site.urls),
+    path('', include('merchstore.urls')),
+    path('', include('blog.urls')),
+    path('', include('commissions.urls')),
+    path('', include('forum.urls')),
+    path('', include('wiki.urls')),   
 ]
