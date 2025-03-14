@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('wiki.urls')),
     path('',include('forum.urls')),
+    path('', include('commissions.urls')),
 ]
