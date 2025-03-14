@@ -6,9 +6,9 @@
 {% block content %}
     <h2> Products: </h2>
     <ul>
-        {% for product in item.products %}
+        {% for product in item.products.all %}
             <li>
-                {{ product.name }} - USD{{ product.price }} </a> <br>
+                {{ product.name }} - USD{{ product.price }} <br>
                 {{ item.description }}
             </li>
         {% endfor %}
