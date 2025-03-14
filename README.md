@@ -1,4 +1,4 @@
-# hobbysite-C-3
+# hobbysite-CD-3
 
 ## Members
 - Keith C. Ayeras | Merchandise Store app
