@@ -16,11 +16,7 @@ class Commission(models.Model):
         ordering = ['created_on']
 
 class Comment(models.Model):
-    commission = models.ForeignKey(
-        Commission,
-        on_delete=models.CASCADE,
-        related_name='comments'
-    )
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='comments')
     entry = models.TextField()
     created_on = models.DateField(auto_now_add=True)
     updated_on = models.DateField(auto_now=True)
