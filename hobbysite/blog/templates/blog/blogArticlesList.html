@@ -1,5 +1,21 @@
-{% extends 'blog/base.html' %}
+{% extends 'hobbysite/base.html' %}
 {% block title %} Blog Articles {% endblock %}
+{% block appcss %} 
+    <style>
+    h1, h2 {
+        font-family: Spectral, serif;
+        font-weight: bold
+    }
+    p {
+        margin: 20px 20px 20px 20px;
+        text-align: justify;
+        font-family: Rubik, sans-serif;    
+    }
+    small, h3, h6 {
+        font-family: Rubik, sans-serif;
+    }
+    </style>
+{% endblock %}
 {% block content %}
     <h1> Blog Articles </h1>
     <ul>

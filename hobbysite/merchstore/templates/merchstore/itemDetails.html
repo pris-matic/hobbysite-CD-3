@@ -1,0 +1,16 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Merchandise Store {% endblock %}
+
+{% block content %}
+    <h2> Products: </h2>
+    <ul>
+        {% for product in item.products.all %}
+            <li>
+                {{ product.name }} - USD{{ product.price }} <br>
+                {{ product.description }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
