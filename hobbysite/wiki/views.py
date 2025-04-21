@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from .models import Article, ArticleCategory
 
-# Create your views here.
-
 def articles_list(request):
     categories = ArticleCategory.objects.all()
     return render(request, 'wiki/articlesList.html', {'categories':categories})
