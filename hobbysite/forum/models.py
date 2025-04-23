@@ -1,9 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-# Create your models here.
-
-class PostCategory(models.Model):
+class ThreadCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -12,12 +10,14 @@ class PostCategory(models.Model):
 
     class Meta:
         ordering = ['name']
-        verbose_name_plural = "Post Categories"
+        verbose_name_plural = "Thread Categories"
 
-class Post(models.Model):
+class Thread(models.Model):
     title = models.CharField(max_length=255)
-    category = models.ForeignKey(PostCategory, on_delete=models.SET_NULL, null=True)
+    author = 'placeholder'
+    category = models.ForeignKey(ThreadCategory, on_delete=models.SET_NULL, null=True)
     entry = models.TextField()
+    image = models.ImageField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -30,3 +30,15 @@ class Post(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+class Comment(models.Model):
+    author = 'placeholder'
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.thread
+
+    class Meta:
+        ordering = ['created_on']
