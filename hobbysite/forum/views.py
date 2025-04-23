@@ -1,12 +1,20 @@
 from django.shortcuts import render
-from .models import PostCategory, Post
-
-# Create your views here.
+from .models import ThreadCategory, Thread, Comment
+from django.contrib.auth.decorators import login_required
+from .forms import ThreadCategoryForm, ThreadForm, CommentForm
 
 def get_forum_categories(request):
-    items = PostCategory.objects.prefetch_related('post_set').all()
+    items = ThreadCategory.objects.prefetch_related('post_set').all()
     return render(request,"forum/threads.html", {'categories': items})
 
 def get_forum_thread(request,num):
-    post = Post.objects.get(id=num)
-    return render(request,"forum/specificThread.html",{'thread': post})
+    thread = Thread.objects.get(id=num)
+    return render(request,"forum/specificThread.html",{'thread': thread})
+
+@login_required
+def create_thread(request):
+    return 1
+
+@login_required
+def update_thread(request):
+    return 2
