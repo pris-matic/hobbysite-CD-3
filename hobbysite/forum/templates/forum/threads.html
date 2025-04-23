@@ -5,11 +5,25 @@
 
 {% block content %}
     {% for category in categories %}
-    <h2>{{ category.name }}</h2>
+    {% if user.is_authenticated %}
+    <h2>My Threads</h2>
     <ul>
-        {% for post in category.post_set.all %}
-        <li><a href="{{ post.get_absolute_url }}">{{ post.title }} | {{ post.created_on }} </a></li>
+        {% for thread in category.thread_set.all %}
+        {%if thread.author == user %}
+            <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }} </a>| {{ thread.created_on }}</li>
+        {% endif %}
         {% endfor %}
     </ul>
+    {% endif %}
+
+    <h2>{{ category.name }}</h2>
+    <ul>
+        {% for thread in category.thread_set.all %}
+        {%if thread.author != user %}
+            <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a> By {{ thread.author }} on {{ thread.created_on }}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
     {% endfor %}
 {% endblock %}
