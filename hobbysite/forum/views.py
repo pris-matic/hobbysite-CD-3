@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ThreadCategoryForm, ThreadForm, CommentForm
 
 def get_forum_categories(request):
-    items = ThreadCategory.objects.prefetch_related('post_set').all()
+    items = ThreadCategory.objects.prefetch_related('thread_set').all()
     return render(request,"forum/threads.html", {'categories': items})
 
 def get_forum_thread(request,num):
