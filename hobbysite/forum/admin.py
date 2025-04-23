@@ -1,29 +1,36 @@
 from django.contrib import admin
-from .models import PostCategory, Post
+from .models import ThreadCategory, Thread, Comment
 
-# Register your models here.
-
-class PostInline(admin.TabularInline):
-    model = Post
+class ThreadInline(admin.TabularInline):
+    model = Thread
     extra = 0
-    fields = ('title', 'created_on', 'updated_on') 
-    readonly_fields = ('created_on', 'updated_on')  
+    fields = ('title', 'image', 'created_on', 'updated_on',) 
+    readonly_fields = ('created_on', 'updated_on',)  
 
-class PostCategoryAdmin(admin.ModelAdmin):
-    model = PostCategory
+class ThreadCategoryAdmin(admin.ModelAdmin):
+    model = ThreadCategory
 
     list_display = ('name',)
     list_filter = ('name',)
     search_fields =('name',)
-    inlines = [PostInline]
+    inlines = [ThreadInline]
 
-class PostAdmin(admin.ModelAdmin):
-    model = Post
+class ThreadAdmin(admin.ModelAdmin):
+    model = Thread
 
-    list_display = ('title', 'category', 'created_on', 'updated_on',)
+    list_display = ('title', 'author', 'category', 'image', 'created_on', 'updated_on',)
     list_filter = ('category',)
     search_fields =('category__name',)
-    readonly_fields = ('created_on', 'updated_on') 
+    readonly_fields = ('created_on', 'updated_on',)
 
-admin.site.register(PostCategory,PostCategoryAdmin)
-admin.site.register(Post,PostAdmin)
+class CommentAdmin(admin.ModelAdmin):
+    model = Comment 
+
+    list_display = ('author','thread','created_on','updated_on',)
+    list_filter = ('author',)
+    search_fields = ('author',)
+    readonly_fields = ('created_on', 'updated_on',)  
+
+admin.site.register(ThreadCategory,ThreadCategoryAdmin)
+admin.site.register(Thread,ThreadAdmin)
+admin.site.register(Comment,CommentAdmin)
