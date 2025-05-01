@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .forms import ProfileForm
 
+def homepage(request):
+    return render(request,'user_management/homepage.html')
+
 @login_required
 def update_profile(request):
     account, created = Profile.objects.get_or_create(user=request.user)
