@@ -10,6 +10,6 @@ urlpatterns = [
     path('commissions/', include('commissions.urls')),
     path('forum/', include('forum.urls')),
     path('wiki/', include('wiki.urls')),   
-    path('profile/',include('user_management.urls')),
+    path('',include('user_management.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
