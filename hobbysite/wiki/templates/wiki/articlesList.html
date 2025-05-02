@@ -2,12 +2,27 @@
 {% load static %}
 {% block title %}Wiki Article List{% endblock %}
 {% block content %}
+    {% if request.user.is_authenticated %}
+    <h1> My Articles </h1>
+        {% if user_articles.all %}
+        <ul>
+	    {% for article in user_articles.all %}
+	    <li> <a href="{% url 'wiki:article_detail' article.id %}"> {{article.title}} </a> </li>
+	    {% endfor %}
+        </ul>
+	{% else %}
+	<p> No articles.</p>
+	{% endif %}
+    {% endif %}
+
     <h1> Articles </h1>
     {% for category in categories %}
     <h2> {{category.name}} </h2>
         <ul>
-	{% for article in category.article.all %}
-	<li> <a href="{% url 'wiki:article_detail' article.id %}"> {{article.title}} </a> </li>
+	{% for article in category.articles.all %}
+	{% if article.author.user != request.user %}
+	    <li> <a href="{% url 'wiki:article_detail' article.id %}"> {{article.title}} </a> </li>
+	{% endif %}
 	{% endfor %}
     </ul>
     {% endfor %}
