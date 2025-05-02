@@ -10,10 +10,10 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
 
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
-    fields = [('title','category'),'header_image','entry']
-    search_fields = ('title', 'category', 'entry')
-    list_filter = ('category',)
-    list_display = ('title', 'category', 'created_on', 'updated_on')
+    fields = [('title','category'),'header_image','author','entry']
+    search_fields = ('title', 'category', 'author', 'entry')
+    list_filter = ('category', 'author')
+    list_display = ('title', 'category', 'author', 'created_on', 'updated_on')
 
 
 admin.site.register(Article, ArticleAdmin)
