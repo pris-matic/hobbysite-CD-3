@@ -1,9 +1,11 @@
-<html>
-	<body>
-		<form method="POST">
-			{% csrf_token %}
-			{{ form.as_p }}
-			<button type="submit">Login</button>
-		</form>
-	</body>
-</html>
+{% extends "hobbysite/base.html" %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<div>
+<form method="POST">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Login</button>
+</form>
+</div>
+{% endblock %}

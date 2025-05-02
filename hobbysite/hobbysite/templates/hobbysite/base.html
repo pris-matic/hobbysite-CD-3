@@ -44,7 +44,7 @@
 						        {{ form.as_p }}
 						        <button class="nav-link" type="submit">Logout</button>
 						    </form>
-						{% else %}
+						    {% elif request.path != '/accounts/login/' %}
 						    <a href="{% url 'login' %}">Login</a>
 						{% endif %}
 					</li>
