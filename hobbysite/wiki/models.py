@@ -36,7 +36,7 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['-created_on']
 
     def __str__(self):
         return f"Comment on {self.article.title} by {self.author} on {self.created_on}:\n{self.entry}"
