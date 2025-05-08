@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import Article, ArticleCategory
 from .forms import ArticleForm
 
@@ -11,8 +12,11 @@ def articles_list(request):
     return render(request, 'wiki/articlesList.html', {'categories':categories, 'user_articles':user_articles})
 
 def article_detail(request, key):
-    return render(request, 'wiki/articleDetail.html', {'article': Article.objects.get(id=key)})
+    article = Article.objects.get(id=key)
+    more_in_category = Article.objects.filter(category=article.category).exclude(id=article.id)
+    return render(request, 'wiki/articleDetail.html', {'article': article, 'more_in_category': more_in_category})
 
+@login_required
 def article_create(request):
     if request.method == 'POST':
         article_form = ArticleForm(request.POST, request.FILES)
@@ -26,6 +30,7 @@ def article_create(request):
         article_form = ArticleForm()
     return render(request, 'wiki/articleCreate.html', {'article_form': article_form})
 
+@login_required
 def article_update(request, key):
     article = get_object_or_404(Article, id=key)
     if request.method == 'POST':
