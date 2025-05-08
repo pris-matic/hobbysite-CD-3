@@ -10,11 +10,13 @@
 </h6>
     <p> {{ article.entry|linebreaks }} </p>
 
-<h6> Post a comment under this article! </h6>
-<form method="post">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <button type="submit" name="comment"> Post </button>
-</form>
+{% if user.is_authenticated %}
+    <h6> Post a comment under this article! </h6>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit" name="comment"> Post </button>
+    </form>
+{% endif %}
 <small> <a href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a> </small>
 {% endblock %}
