@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import ArticleCategory, Article
+from .models import ArticleCategory, Article, Comment
 from .forms import CommentForm
 from django.contrib.auth.decorators import login_required
 
@@ -10,6 +10,7 @@ def article_categories_list(request):
 
 def article(request, key):
     article = Article.objects.get(id=key)
+    comments = article.comments.all()
     comment_form = CommentForm()
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -18,5 +19,5 @@ def article(request, key):
             comment_form.instance.article = Article.objects.get(id=key)
             comment_form.save()
 
-    ctx = {'article':article, 'comment_form':comment_form}
+    ctx = {'article':article, 'comment_form':comment_form, 'comments':comments}
     return render(request, 'blog/blogArticle.html', ctx)

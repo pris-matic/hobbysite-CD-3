@@ -17,6 +17,13 @@
         {{ comment_form.as_p }}
         <button type="submit" name="comment"> Post </button>
     </form>
-{% endif %}
+{% endif %} <br>
+
+<h6> Comments </h6>
+{% for comment in comments %}
+    <li>
+        {{ comment.author.name }}: {{ comment.entry }}
+    </li>
+{% endfor %} <br>
 <small> <a href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a> </small>
 {% endblock %}
