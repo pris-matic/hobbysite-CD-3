@@ -3,12 +3,24 @@
 {% block title %} {{article.title}}{% endblock %}
 {% block content %}
     <h1> {{article.title}} </h1>
+    <div>
+	<img src="{{article.header_image.url}}" alt="{{article.title}}">
+    </div>
     <small> Created on: {{article.created_on}} Updated on: {{article.updated_on}}</small>
     <p> {{article.entry | linebreaks}} </p>
     {% if article.author == request.user.profile %}
     <a class="btn btn-primary" href="{% url 'wiki:article_update' article.id %}"> Edit </a>
     {% endif %}
     <h1> Comments </h1> 
+    {% if request.user.is_authenticated %}
+    <p> Add a comment </p>
+    <form method="post">
+        {% csrf_token %}
+        {{comment_form.as_p}}
+        <button class="btn btn-primary" type="submit">Comment</button>
+    </form>
+    {% endif %}
+
     {% if article.comments.all %}
     <ul> 
     {% for comment in article.comments.all %}
@@ -29,5 +41,7 @@
     <li> <a href="{% url 'wiki:article_detail' other_article.id%}"> {{other_article.title}} </a>
     {% endfor %}
     </ul>
+
+    <a href="{% url 'wiki:articles_list' %}">Back to article list</a>
 	    
 {% endblock %}
