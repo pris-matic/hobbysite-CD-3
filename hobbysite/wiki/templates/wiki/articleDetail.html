@@ -5,4 +5,19 @@
     <h1> {{article.title}} </h1>
     <small> Created on: {{article.created_on}} Updated on: {{article.updated_on}}</small>
     <p> {{article.entry | linebreaks}} </p>
+    <h1> Comments </h1> 
+    {% if article.comments.all %}
+    <ul> 
+    {% for comment in article.comments.all %}
+        <li> 
+	    <p> {{comment.author.name}} </p>
+	    <p> {{comment.created_on}} </p>
+	    <p> {{comment.entry}} </p>
+	</li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p> No comments. </p>
+    {% endif %}
+	    
 {% endblock %}

@@ -41,7 +41,7 @@
                             </li>
 						    <form method="post" action="{% url 'logout' %}">
 						        {% csrf_token %}
-						        {{ form.as_p }}
+						        {{ login_form.as_p }}
 						        <button class="nav-link" type="submit">Logout</button>
 						    </form>
 						    {% elif request.path != '/accounts/login/' %}
