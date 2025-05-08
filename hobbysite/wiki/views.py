@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Article, ArticleCategory
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 
 def articles_list(request):
     categories = ArticleCategory.objects.all()
@@ -14,14 +14,24 @@ def articles_list(request):
 def article_detail(request, key):
     article = Article.objects.get(id=key)
     more_in_category = Article.objects.filter(category=article.category).exclude(id=article.id)
-    return render(request, 'wiki/articleDetail.html', {'article': article, 'more_in_category': more_in_category})
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        comment_form.instance.author = request.user.profile
+        comment_form.instance.article = article
+        if comment_form.is_valid():
+            comment_form.save()
+            return redirect(reverse('wiki:article_detail', args=[article.pk]))
+
+    else:
+        comment_form = CommentForm()
+    return render(request, 'wiki/articleDetail.html', {'article': article, 'more_in_category': more_in_category, 'comment_form': comment_form})
 
 @login_required
 def article_create(request):
     if request.method == 'POST':
         article_form = ArticleForm(request.POST, request.FILES)
+        article_form.instance.author = request.user.profile
         if article_form.is_valid():
-            article_form.instance.author = request.user.profile
             article = article_form.save()
             return redirect(reverse('wiki:article_detail', args=[article.pk]))
         else:
