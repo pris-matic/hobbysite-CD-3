@@ -4,7 +4,8 @@
 <h1> {{ article.title }} </h1>
 <h3> {{ article.category }} </h3>
 <h6> 
-    Created on {{ article.created_on }} 
+    Author: {{ article.author.name }} <br>
+    Created on {{ article.created_on }} <br>
     Last updated {{ article.updated_on }}
 </h6>
     <p> {{ article.entry|linebreaks }} </p>
