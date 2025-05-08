@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Article, ArticleCategory
-
-# Register your models here.
+from .models import Article, ArticleCategory, Comment
 
 class ArticleCategoryAdmin(admin.ModelAdmin):
     model = ArticleCategory
@@ -15,6 +13,10 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = ('category', 'author')
     list_display = ('title', 'category', 'author', 'created_on', 'updated_on')
 
+class CommentAdmin(admin.ModelAdmin):
+    model = Comment
+
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(ArticleCategory, ArticleCategoryAdmin)
+admin.site.register(Comment, CommentAdmin)
