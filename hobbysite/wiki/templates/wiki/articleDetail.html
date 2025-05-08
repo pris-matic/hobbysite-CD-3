@@ -23,7 +23,7 @@
     <p> No comments. </p>
     {% endif %}
 
-    <h1> Read more from category "{{article.category.name}}": </h1>
+    <h1> Read more from <strong>{{article.category.name}}</strong> </h1>
     <ul>
     {% for other_article in more_in_category %}
     <li> <a href="{% url 'wiki:article_detail' other_article.id%}"> {{other_article.title}} </a>
