@@ -34,3 +34,17 @@ def article_create(request):
 
     ctx = {'article_form':article_form}
     return render(request, 'blog/blogArticleMaker.html', ctx)
+
+@login_required
+def article_update(request, key):
+    article = Article.objects.get(id=key)
+    if request.method == 'POST':
+        article_form = ArticleCreateForm(request.POST, request.FILES, instance=article)
+        if article_form.is_valid():
+            article_form.save()
+            return redirect('blog:article', key=article.pk)
+    else:
+        article_form = ArticleCreateForm(instance=article)
+
+    ctx = {'article_form':article_form}
+    return render(request, 'blog/blogArticleUpdater.html', ctx)
