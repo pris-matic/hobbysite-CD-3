@@ -12,6 +12,7 @@ class ThreadCategory(models.Model):
     class Meta:
         ordering = ['name']
         verbose_name_plural = "Thread Categories"
+        constraints = [models.UniqueConstraint(fields=['name'], name='unique_category_name')]
 
 class Thread(models.Model):
     title = models.CharField(max_length=255)
@@ -30,6 +31,7 @@ class Thread(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+        constraints = [models.UniqueConstraint(fields=['title','author','category'], name='unique_thread_per_author')]
 
 class Comment(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
