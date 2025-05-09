@@ -18,6 +18,7 @@
 {% endblock %}
 {% block content %}
     <h1> Blog Articles </h1>
+    <a href="{% url 'blog:article_create' %}"> <button type='button'> Create an Article </button> </a>
     <ul>
     {% for category in categories %}
         <h2> {{ category.name }} </h2> 
