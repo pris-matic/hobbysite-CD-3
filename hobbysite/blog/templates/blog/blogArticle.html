@@ -10,6 +10,10 @@
 </h6>
     <p> {{ article.entry|linebreaks }} </p>
 
+{% if request.user.profile == article.author %}
+    <a href="{% url 'blog:article_update' article.pk %}"> <button> Edit </button></a>
+{% endif %}
+
 {% if user.is_authenticated %}
     <h6> Post a comment under this article! </h6>
     <form method="post">
