@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from .models import ArticleCategory, Article, Comment
-from .forms import CommentForm
+from django.shortcuts import render, redirect
+from .models import ArticleCategory, Article
+from .forms import CommentForm, ArticleCreateForm
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -21,3 +21,16 @@ def article(request, key):
 
     ctx = {'article':article, 'comment_form':comment_form, 'comments':comments}
     return render(request, 'blog/blogArticle.html', ctx)
+
+@login_required
+def article_create(request):
+    article_form = ArticleCreateForm()
+    if request.method == 'POST':
+        article_form = ArticleCreateForm(request.POST)
+        if article_form.is_valid():
+            article_form.instance.author = request.user.profile
+            article_form.save()
+            return redirect('blog:blog_categories')
+
+    ctx = {'article_form':article_form}
+    return render(request, 'blog/blogArticleMaker.html', ctx)
