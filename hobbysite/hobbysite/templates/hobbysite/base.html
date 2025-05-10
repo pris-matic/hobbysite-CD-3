@@ -7,54 +7,53 @@
     {% block appcss %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
+
+    <nav class="navbar sticky-top navbar-expand bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'user_management:home' %}"> Home </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'forum:get_forum_categories' %}"> Forum </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'blog:blog_categories' %}"> Blog </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'wiki:articles_list' %}"> Wiki </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'commissions:commissions_list' %}"> Commissions </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'merchstore:items_list' %}"> Merch </a>
-                    </li>
-                    
-                </ul>
-            </div>
-            <div>
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						{% if user.is_authenticated %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'user_management:update_profile' %}"> Profile </a>
-                            </li>
-						    <form method="post" action="{% url 'logout' %}">
-						        {% csrf_token %}
-						        {{ login_form.as_p }}
-						        <button class="nav-link" type="submit">Logout</button>
-						    </form>
-						    {% elif request.path != '/accounts/login/' %}
-						    <a href="{% url 'login' %}">Login</a>
-						{% endif %}
-					</li>
-				</ul>
-			</div>
+            <ul class="navbar-nav">
+	    {% with request.resolver_match.app_name as app_name %}
+                <li class="nav-item">
+			<a class="nav-link rounded {% if app_name == 'home' %}text-bg-primary active{% endif %}" href="{% url 'user_management:home' %}"> Home </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded {% if app_name == 'forum' %}text-bg-primary active{% endif %}" href="{% url 'forum:get_forum_categories' %}"> Forum </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded {% if app_name == 'blog' %}text-bg-primary active{% endif %}" href="{% url 'blog:blog_categories' %}"> Blog </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded {% if app_name == 'wiki' %}text-bg-primary active{% endif %}" href="{% url 'wiki:articles_list' %}"> Wiki </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded {% if app_name == 'commissions' %}text-bg-primary active{% endif %}" href="{% url 'commissions:commissions_list' %}"> Commissions </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link rounded {% if app_name == 'merchstore' %}text-bg-primary active{% endif %}" href="{% url 'merchstore:items_list' %}"> Merch </a>
+                </li>
+            {% endwith %}
+            </ul>
+            <ul class="navbar-nav">
+	        {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'user_management:update_profile' %}"> Profile </a>
+                </li>
+                <li class="nav-item">
+	    	<form method="post" action="{% url 'logout' %}">
+	            {% csrf_token %}
+	            {{ login_form.as_p }}
+                        <button class="btn btn-secondary" type="submit">Logout</button>
+	            </form>
+	        {% elif request.path != '/accounts/login/' %}
+                <li class="nav-item">
+	    	<a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+	        </li>
+	        {% endif %}
+	    </ul>
         </div>
     </nav>
-    <div id = "content">
+    <main class=container-md>
         {% block content %}{% endblock %}
-    </div>
+    </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
