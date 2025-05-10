@@ -20,9 +20,9 @@
 {% block content %}
     <h1> Blog Articles </h1>
     <a href="{% url 'blog:article_create' %}"> <button type='button'> Create an Article </button> </a>
-    {% for category in categories %}
     {% if request.user.is_authenticated %}
         <h2> Your Articles </h2>
+        {% for category in categories %}
         <ul>
             <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
             {% for article in category.article_set.all %}
@@ -33,9 +33,11 @@
                 {% endif %}
             {% endfor %}
         </ul>
+        {% endfor %}
     {% endif %}
 
     <h2> Other Articles </h2>
+    {% for category in categories %}
     <ul>
         <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
         {% for article in category.article_set.all %}

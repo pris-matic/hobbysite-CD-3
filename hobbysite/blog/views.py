@@ -30,8 +30,8 @@ def article_create(request):
         article_form = ArticleCreateForm(request.POST)
         if article_form.is_valid():
             article_form.instance.author = request.user.profile
-            article_form.save()
-            return redirect('blog:blog_categories')
+            article = article_form.save()
+            return redirect('blog:article', key=article.pk)
 
     ctx = {'article_form':article_form}
     return render(request, 'blog/blogArticleMaker.html', ctx)
