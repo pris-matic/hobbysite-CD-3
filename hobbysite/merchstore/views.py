@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import CreateView, UpdateView
+from django.urls import reverse_lazy
 from .models import Product
-from .forms import TransactionForm
+from .forms import ProductForm, TransactionForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def product_list_view(request):
     all_products = Product.objects.all()
@@ -40,3 +43,33 @@ def product_detail_view(request, pk):
         'form': form,
         'is_owner': is_owner,
     })
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'merchstore/product_form.html'
+    success_url = reverse_lazy('product_list')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user.profile
+        return super().form_valid(form)
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'merchstore/product_form.html'
+    success_url = reverse_lazy('product_list')
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['owner'].disabled = True
+        return form
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        if instance.stock == 0:
+            instance.status = 'Out of stock'
+        else:
+            instance.status = 'Available'
+        instance.save()
+        return super().form_valid(form)
