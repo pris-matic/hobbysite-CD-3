@@ -8,4 +8,8 @@
 	<button type="submit">Login</button>
 </form>
 </div>
+
+<div>
+<p>Don't have an account? <a href="{% url 'user_management:register' %}">Register here</a></p>
+<p>Forgot your password? <a href="{% url 'user_management:password_reset' %}">Reset it here</a></p>
 {% endblock %}
