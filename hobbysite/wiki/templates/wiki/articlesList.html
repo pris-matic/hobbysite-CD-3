@@ -21,7 +21,14 @@
     {% endif %}
 
     <section class="card m-3">
-        <h1 class="card-header text-bg-primary"> Articles </h1>
+        <h1 class="card-header text-bg-primary"> 
+        {% if request.user.is_authenticated %}
+	    Other Articles
+	{% else %}
+	    Articles
+	{% endif %}
+
+	</h1>
         <div class="row row-cols-1 row-cols-lg-3 p-3 g-3">
             {% for category in categories %}
 	    {% if category.articles.all %}
