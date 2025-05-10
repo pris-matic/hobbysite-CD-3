@@ -9,4 +9,4 @@ class CommentForm(forms.ModelForm):
 class ArticleCreateForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['title', 'category', 'entry']
+        fields = ['title', 'category', 'entry', 'header_image']
