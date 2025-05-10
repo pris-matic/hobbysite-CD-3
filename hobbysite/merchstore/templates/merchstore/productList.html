@@ -4,13 +4,23 @@
 {% block title %} Merchandise Store {% endblock %}
 
 {% block content %}
-    <h2> Items: </h2>
-    <ul>
-        {% for item in items %}
-            <li>
-                <a href="{% url 'merchstore:item_details' item.id %}">{{ item.name }} </a> <br>
-                {{ item.description }}
-            </li>
-        {% endfor %}
-    </ul>
+    <h2>Your Products</h2>
+    {% for product in user_products %}
+        <div>
+            <a href="/merchstore/item/{{ product.id }}">{{ product.name }}</a>
+        </div>
+    {% empty %}
+        <p>No products posted by you.</p>
+    {% endfor %}
+
+    <h2>All Products</h2>
+    {% for product in all_products %}
+        <div>
+            <a href="/merchstore/item/{{ product.id }}">{{ product.name }}</a>
+        </div>
+    {% empty %}
+        <p>No available products.</p>
+    {% endfor %}
+
+    <a href="/merchstore/item/add">Add Product</a>
 {% endblock %}

@@ -4,13 +4,23 @@
 {% block title %} Merchandise Store {% endblock %}
 
 {% block content %}
-    <h2> Products: </h2>
-    <ul>
-        {% for product in item.products.all %}
-            <li>
-                {{ product.name }} - USD{{ product.price }} <br>
-                {{ product.description }}
-            </li>
-        {% endfor %}
-    </ul>
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.description }}</p>
+    <p>Price: ${{ product.price }}</p>
+    <p>Stock: {{ product.stock }}</p>
+    <p>Status: {{ product.status }}</p>
+
+    {% if is_owner %}
+        <a href="/merchstore/item/{{ product.id }}/edit">Edit</a>
+    {% else %}
+        {% if product.stock > 0 %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Buy</button>
+            </form>
+        {% else %}
+            <button disabled>Out of Stock</button>
+        {% endif %}
+    {% endif %}
 {% endblock %}
