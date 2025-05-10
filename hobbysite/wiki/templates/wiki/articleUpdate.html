@@ -1,0 +1,10 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+{% block title %} Update article {% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{article_form.as_p}}
+    <button class="btn btn-primary" type="submit">Save changes</button>
+</form>
+{% endblock %}
