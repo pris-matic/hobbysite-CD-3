@@ -1,7 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from user_management.models import Profile
 
-class PostCategory(models.Model):
+class ThreadCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
@@ -10,12 +11,15 @@ class PostCategory(models.Model):
 
     class Meta:
         ordering = ['name']
-        verbose_name_plural = "Post Categories"
+        verbose_name_plural = "Thread Categories"
+        constraints = [models.UniqueConstraint(fields=['name'], name='unique_category_name')]
 
-class Post(models.Model):
+class Thread(models.Model):
     title = models.CharField(max_length=255)
-    category = models.ForeignKey(PostCategory, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(ThreadCategory, on_delete=models.SET_NULL, null=True)
     entry = models.TextField()
+    image = models.ImageField(blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -27,4 +31,17 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+        constraints = [models.UniqueConstraint(fields=['title','author','category'], name='unique_thread_per_author')]
 
+class Comment(models.Model):
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.thread
+
+    class Meta:
+        ordering = ['created_on']
