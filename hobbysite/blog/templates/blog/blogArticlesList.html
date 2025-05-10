@@ -1,32 +1,32 @@
 {% extends 'hobbysite/base.html' %}
 {% block title %} Blog Articles {% endblock %}
-{% block appcss %}
-    <style>
-    h1, h2 {
-        font-family: Spectral, serif;
-        font-weight: bold
-    }
-    p {
-        margin: 20px 20px 20px 20px;
-        text-align: justify;
-        font-family: Rubik, sans-serif;
-    }
-    small, h3, h6 {
-        font-family: Rubik, sans-serif;
-    }
-    </style>
-{% endblock %}
-
 {% block content %}
     <h1> Blog Articles </h1>
     <a href="{% url 'blog:article_create' %}"> <button type='button'> Create an Article </button> </a>
     {% if request.user.is_authenticated %}
         <h2> Your Articles </h2>
+        {% if request.user.profile.article_set %}
+            {% for category in categories %}
+            <ul>
+                <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
+                {% for article in category.article_set.all %}
+                    {% if article.author == request.user.profile %}
+                    <ul> <li>
+                        <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
+                    </li> </ul>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endfor %}
+        {% else %}
+            <p> You haven't written any articles yet. </p>
+        {% endif %}
+        <h2> Other Articles </h2>
         {% for category in categories %}
         <ul>
             <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
             {% for article in category.article_set.all %}
-                {% if article.author == request.user.profile %}
+                {% if article.author != request.user.profile %}
                 <ul> <li>
                     <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
                 </li> </ul>
@@ -34,19 +34,18 @@
             {% endfor %}
         </ul>
         {% endfor %}
+
+    {% else %}
+        {% for category in categories %}
+        <ul>
+            <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
+            {% for article in category.article_set.all %}
+                <ul> <li>
+                    <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
+                </li> </ul>
+            {% endfor %}
+        </ul>
+        {% endfor %}
     {% endif %}
 
-    <h2> Other Articles </h2>
-    {% for category in categories %}
-    <ul>
-        <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
-        {% for article in category.article_set.all %}
-            {% if article.author != request.user.profile %}
-            <ul> <li>
-                <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
-            </li> </ul>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    {% endfor %}
 {% endblock %}
