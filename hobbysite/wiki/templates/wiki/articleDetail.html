@@ -2,46 +2,59 @@
 {% load static %}
 {% block title %} {{article.title}}{% endblock %}
 {% block content %}
-    <h1> {{article.title}} </h1>
-    <div>
-	<img src="{{article.header_image.url}}" alt="{{article.title}}">
+<section class="card m-3">
+    <h1 class="card-header text-bg-primary"> Article </h1> 
+    <div class="card-body">
+        <h1 class="card-title"> {{article.title}} </h1>
+        <aside class="card m-3 float-none float-lg-end">
+            <div class="card-body w-100 r-3">
+                <img src="{{article.header_image.url}}" alt="{{article.title}}">
+            </div>
+        </aside>
+        <small> Created on: {{article.created_on}} Updated on: {{article.updated_on}}</small>
+        <p> {{article.entry | linebreaks}} </p>
+        {% if article.author == request.user.profile %}
+        <a class="btn btn-primary" href="{% url 'wiki:article_update' article.id %}"> Edit Article </a>
+        {% endif %}
     </div>
-    <small> Created on: {{article.created_on}} Updated on: {{article.updated_on}}</small>
-    <p> {{article.entry | linebreaks}} </p>
-    {% if article.author == request.user.profile %}
-    <a class="btn btn-primary" href="{% url 'wiki:article_update' article.id %}"> Edit </a>
-    {% endif %}
-    <h1> Comments </h1> 
-    {% if request.user.is_authenticated %}
-    <p> Add a comment </p>
-    <form method="post">
-        {% csrf_token %}
-        {{comment_form.as_p}}
-        <button class="btn btn-primary" type="submit">Comment</button>
-    </form>
-    {% endif %}
+</section>
 
-    {% if article.comments.all %}
-    <ul> 
-    {% for comment in article.comments.all %}
-        <li> 
-	    <p> {{comment.author.name}} </p>
-	    <p> {{comment.created_on}} </p>
-	    <p> {{comment.entry}} </p>
-	</li>
-    {% endfor %}
-    </ul>
-    {% else %}
-    <p> No comments. </p>
-    {% endif %}
+<section class="card m-3">
+    <h1 class="card-header text-bg-primary"> Comments </h1> 
+    <div class="card-body">
+        {% if request.user.is_authenticated %}
+        <h2> Add a comment </h2>
+        <form method="post">
+            {% csrf_token %}
+            {{comment_form.as_p}}
+            <button class="btn btn-primary" type="submit">Comment</button>
+        </form>
+        {% endif %}
 
-    <h1> Read more from <strong>{{article.category.name}}</strong> </h1>
-    <ul>
-    {% for other_article in more_in_category %}
-    <li> <a href="{% url 'wiki:article_detail' other_article.id%}"> {{other_article.title}} </a>
-    {% endfor %}
-    </ul>
+        {% if article.comments.all %}
+        <div class="list-group mt-3">
+            {% for comment in article.comments.all %}
+	    <div class="list-group-item">
+		    <small> {{comment.author.name}} ({{comment.author.user.username}}) commented on {{comment.created_on}}:</small>
+                <p> {{comment.entry}} </p>
+	    </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p> No comments. </p>
+        {% endif %}
+    </div>
+</section>
 
-    <a href="{% url 'wiki:articles_list' %}">Back to article list</a>
-	    
+<section class="card m-3">
+    <h1 class="card-header text-bg-primary"> Read more from <strong>{{article.category.name}}</strong> </h1>
+    <div class="card-body">
+        <div class="list-group">
+            {% for other_article in more_in_category %}
+	    <a class="list-group-item list-group-item-action" href="{% url 'wiki:article_detail' other_article.id%}"> {{other_article.title}} </a>
+            {% endfor %}
+        </div>
+        <a class="mt-3 btn btn-primary" href="{% url 'wiki:articles_list' %}">Back to article list</a>
+    </div>
+</section> 
 {% endblock %}
