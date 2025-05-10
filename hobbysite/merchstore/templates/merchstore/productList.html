@@ -1,0 +1,28 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Merchandise Store {% endblock %}
+
+{% block content %}
+    <h2>Your Products</h2>
+    {% for product in user_products %}
+        <div>
+            <a href="{% url 'merchstore:product_detail' product.id %}">{{ product.name }}</a>
+        </div>
+        <br>
+    {% empty %}
+        <p>No products posted by you.</p>
+    {% endfor %}
+
+    <h2>All Products</h2>
+    {% for product in all_products %}
+        <div>
+            <a href="{% url 'merchstore:product_detail' product.id %}">{{ product.name }}</a>
+        </div>
+    {% empty %}
+        <p>No available products.</p>
+    {% endfor %}
+    <br>
+
+    <a href="{% url 'merchstore:product_add' %}">Add Product</a>
+{% endblock %}
