@@ -49,7 +49,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'merchstore/productForm.html'
-    success_url = reverse_lazy('product_list')
+    success_url = reverse_lazy('merchstore:product_list')
 
     def form_valid(self, form):
         form.instance.owner = self.request.user.profile
@@ -59,7 +59,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'merchstore/productForm.html'
-    success_url = reverse_lazy('product_list')
+    success_url = reverse_lazy('merchstore:product_list')
 
     def get_form(self):
         form = super().get_form()

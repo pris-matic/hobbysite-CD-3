@@ -9,6 +9,7 @@
         <div>
             <a href="/merchstore/item/{{ product.id }}">{{ product.name }}</a>
         </div>
+        <br>
     {% empty %}
         <p>No products posted by you.</p>
     {% endfor %}
@@ -21,6 +22,7 @@
     {% empty %}
         <p>No available products.</p>
     {% endfor %}
+    <br>
 
     <a href="/merchstore/item/add">Add Product</a>
 {% endblock %}
