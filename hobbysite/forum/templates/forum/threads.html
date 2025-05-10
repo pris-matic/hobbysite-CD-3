@@ -12,7 +12,7 @@
         </div>
         <ul>
             {% for thread in user_threads %}
-                <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }} </a>| {{ thread.created_on }}</li>
+                <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }} </a></li>
             {% empty %}
                 <li>You have not created any threads.</li>
             {% endfor %}
@@ -26,7 +26,7 @@
         <h4>{{ category.description }}</h4>
             <ul>
                 {% for thread in category.threads %}
-                    <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a> By {{ thread.author }} on {{ thread.created_on }}</li>
+                    <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li>
                 {% empty %}
                     <li> There are no threads by other users in this Category yet. </li>
                 {% endfor %}
