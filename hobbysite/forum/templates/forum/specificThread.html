@@ -36,5 +36,14 @@
         </form>
     {% endif %}
 
-    <a href="{% url 'forum:get_forum_categories' %}">Back</a>
+    <h4>Other Threads in this Category:</h4>
+    <ul>
+        {% for thread in related_threads %}
+            <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li>
+        {% empty %}
+            <li> There are no other threads in this Category yet. </li>
+        {% endfor %}
+
+
+    <a href="{% url 'forum:get_forum_categories' %}" class="btn btn-outline-secondary"> Back </a>
 {% endblock %}
