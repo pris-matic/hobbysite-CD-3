@@ -1,0 +1,24 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Forum | Create Thread {% endblock %}
+
+{% block content %}
+
+    <h2>Add a Category</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ category.as_p }}
+        <button type="submit" class="btn btn-primary">Create Category</button>
+    </form>
+
+    <h2>Add a Thread</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ thread.as_p }}
+        <button type="submit" class="btn btn-primary">Create Thread</button>
+    </form>
+
+    <a href="{% url 'forum:get_forum_categories' %}" class="btn btn-outline-secondary"> Back </a>
+
+{% endblock %}
