@@ -10,6 +10,7 @@ def article_categories_list(request):
 
 def article(request, key):
     article = Article.objects.get(id=key)
+    author_articles = Article.objects.filter(author=article.author).exclude(id=article.id)
     comments = article.comments.all()
     comment_form = CommentForm()
     if request.method == 'POST':
@@ -19,7 +20,7 @@ def article(request, key):
             comment_form.instance.article = Article.objects.get(id=key)
             comment_form.save()
 
-    ctx = {'article':article, 'comment_form':comment_form, 'comments':comments}
+    ctx = {'article':article, 'comment_form':comment_form, 'comments':comments, 'author_articles':author_articles}
     return render(request, 'blog/blogArticle.html', ctx)
 
 @login_required

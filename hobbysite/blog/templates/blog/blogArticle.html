@@ -29,5 +29,12 @@
         {{ comment.author.name }}: {{ comment.entry }}
     </li>
 {% endfor %} <br>
+
+<h6> Read more from {{ article.author.name }} </h6>
+<ul> 
+{% for article in author_articles %}
+    <li> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </li>
+{% endfor %}
+</ul>
 <small> <a href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a> </small>
 {% endblock %}
