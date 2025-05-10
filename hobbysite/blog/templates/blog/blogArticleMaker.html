@@ -2,7 +2,7 @@
 {% block title %} Create an Article {% endblock %}
 {% block content %}
     <h1> Create an Article </h1>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ article_form.as_p }}
         <button type="submit" name="article"> Submit </button>

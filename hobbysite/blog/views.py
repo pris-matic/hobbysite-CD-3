@@ -27,7 +27,7 @@ def article(request, key):
 def article_create(request):
     article_form = ArticleCreateForm()
     if request.method == 'POST':
-        article_form = ArticleCreateForm(request.POST)
+        article_form = ArticleCreateForm(request.POST, request.FILES)
         if article_form.is_valid():
             article_form.instance.author = request.user.profile
             article = article_form.save()
