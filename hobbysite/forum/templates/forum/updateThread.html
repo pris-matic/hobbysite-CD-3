@@ -1,0 +1,16 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Forum | Update Thread {% endblock %}
+
+{% block content %}
+
+    <h2>Update Thread</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ update_thread.as_p }}
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+
+{% endblock %}
