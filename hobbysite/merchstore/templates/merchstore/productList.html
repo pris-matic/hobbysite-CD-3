@@ -7,7 +7,7 @@
     <h2>Your Products</h2>
     {% for product in user_products %}
         <div>
-            <a href="/merchstore/item/{{ product.id }}">{{ product.name }}</a>
+            <a href="{% url 'merchstore:product_detail' product.id %}">{{ product.name }}</a>
         </div>
         <br>
     {% empty %}
@@ -17,12 +17,12 @@
     <h2>All Products</h2>
     {% for product in all_products %}
         <div>
-            <a href="/merchstore/item/{{ product.id }}">{{ product.name }}</a>
+            <a href="{% url 'merchstore:product_detail' product.id %}">{{ product.name }}</a>
         </div>
     {% empty %}
         <p>No available products.</p>
     {% endfor %}
     <br>
 
-    <a href="/merchstore/item/add">Add Product</a>
+    <a href="{% url 'merchstore:product_add' %}">Add Product</a>
 {% endblock %}

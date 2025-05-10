@@ -6,7 +6,7 @@
 {% block content %}
     <h2>Your Cart</h2>
     {% for owner, transactions in grouped_transactions.items %}
-        <h3>From {{ owner.display_name }}</h3>
+        <h3>{{ owner.display_name }}</h3>
         <ul>
             {% for tx in transactions %}
                 <li>{{ tx.product.name }} - {{ tx.amount }} pcs - {{ tx.status }}</li>

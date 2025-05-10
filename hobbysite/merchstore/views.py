@@ -1,10 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic import CreateView, UpdateView
-from django.urls import reverse_lazy
 from .models import Product, Transaction
 from .forms import ProductForm, TransactionForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 def product_list_view(request):
     all_products = Product.objects.all()
@@ -37,7 +34,7 @@ def product_detail_view(request, pk):
                 product.stock -= transaction.amount
                 product.save()
                 transaction.save()
-                return redirect('cart')
+                return redirect('merchstore:cart')
 
     return render(request, 'merchstore/productDetail.html', {
         'product': product,
@@ -45,35 +42,39 @@ def product_detail_view(request, pk):
         'is_owner': is_owner,
     })
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
-    model = Product
-    form_class = ProductForm
-    template_name = 'merchstore/productForm.html'
-    success_url = reverse_lazy('merchstore:product_list')
+@login_required
+def product_create_view(request):
+    form = ProductForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.owner = request.user.profile
+            product.save()
+            return redirect('merchstore:product_list')
+    return render(request, 'merchstore/productForm.html', {
+        'form': form
+    })
 
-    def form_valid(self, form):
-        form.instance.owner = self.request.user.profile
-        return super().form_valid(form)
+@login_required
+def product_update_view(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.user.profile != product.owner:
+        return redirect('merchstore:product_list')
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
-    model = Product
-    form_class = ProductForm
-    template_name = 'merchstore/productForm.html'
-    success_url = reverse_lazy('merchstore:product_list')
+    form = ProductForm(request.POST or None, instance=product)
+    if request.method == 'POST':
+        if form.is_valid():
+            instance = form.save(commit=False)
+            if instance.stock == 0:
+                instance.status = 'Out of stock'
+            else:
+                instance.status = 'Available'
+            instance.save()
+            return redirect('merchstore:product_list')
 
-    def get_form(self):
-        form = super().get_form()
-        form.fields['owner'].disabled = True
-        return form
-
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        if instance.stock == 0:
-            instance.status = 'Out of stock'
-        else:
-            instance.status = 'Available'
-        instance.save()
-        return super().form_valid(form)
+    return render(request, 'merchstore/productForm.html', {
+        'form': form
+    })
 
 @login_required
 def cart_view(request):

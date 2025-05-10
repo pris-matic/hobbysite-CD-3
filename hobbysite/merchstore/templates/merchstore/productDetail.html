@@ -11,7 +11,7 @@
     <p>Status: {{ product.status }}</p>
 
     {% if is_owner %}
-        <a href="/merchstore/item/{{ product.id }}/edit">Edit</a>
+        <a href="{% url 'merchstore:product_update' product.id %}">Edit</a>
     {% else %}
         {% if product.stock > 0 %}
             <form method="post">
