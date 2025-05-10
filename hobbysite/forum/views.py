@@ -36,6 +36,7 @@ def get_forum_categories(request):
 
 def get_forum_thread(request,num):
     specific_thread = Thread.objects.get(id=num)
+    related_threads = Thread.objects.filter(category=specific_thread.category).exclude(id=specific_thread.id)
     comments = Comment.objects.filter(thread=specific_thread)
     profile = None
 
@@ -58,7 +59,7 @@ def get_forum_thread(request,num):
         else:
             comment_form = CommentForm()
 
-    return render(request,"forum/specificThread.html",{'thread': specific_thread, 'comments': comments, 'comment': comment_form, 'profile':profile})
+    return render(request,"forum/specificThread.html",{'thread': specific_thread, 'comments': comments, 'comment': comment_form, 'profile':profile, 'related_threads':related_threads})
 
 @login_required
 def create_thread(request):
