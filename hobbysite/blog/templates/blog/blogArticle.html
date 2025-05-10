@@ -2,7 +2,7 @@
 {% block title %} {{ article.title }} {% endblock %}
 {% block content %}
 {% if article.header_image %}
-<img src="{{ article.header_image.url }}" alt="" height="300">
+    <img src="{{ article.header_image.url }}" alt="" height="400" width="100%">
 {% endif %}
 <h1> {{ article.title }} </h1>
 <h3> {{ article.category }} </h3>
@@ -17,6 +17,7 @@
     <a href="{% url 'blog:article_update' article.pk %}"> <button> Edit </button></a>
 {% endif %}
 
+<hr>
 {% if user.is_authenticated %}
     <h6> Post a comment under this article! </h6>
     <form method="post">
@@ -24,20 +25,26 @@
         {{ comment_form.as_p }}
         <button type="submit" name="comment"> Post </button>
     </form>
-{% endif %} <br>
+{% endif %}
+
 
 <h6> Comments </h6>
-{% for comment in comments %}
-    <li>
-        {{ comment.author.name }}: {{ comment.entry }}
-    </li>
-{% endfor %} <br>
+{% if comments %}
+    {% for comment in comments %}
+        <li>
+            {{ comment.author.name }} ({{ comment.created_on }}): {{ comment.entry }}
+        </li>
+    {% endfor %}
+{% else %}
+    Be the first to comment on this article!
+{% endif %}
 
+<hr>
 <h6> Read more from {{ article.author.name }} </h6>
 <ul> 
 {% for article in author_articles %}
     <li> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </li>
 {% endfor %}
 </ul>
-<small> <a href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a> </small>
+<a href="{% url 'blog:blog_categories' %}"> <button type='button'> Back to Blog Articles List </button> </a>
 {% endblock %}
