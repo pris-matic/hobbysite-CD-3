@@ -34,3 +34,17 @@ class Product(models.Model):
             self.status = 'Available'
         super().save(*args, **kwargs)
     
+class Transaction(models.Model):
+    STATUS_CHOICES = [
+        ('On cart', 'On cart'),
+        ('To Pay', 'To Pay'),
+        ('To Ship', 'To Ship'),
+        ('To Receive', 'To Receive'),
+        ('Delivered', 'Delivered'),
+    ]
+
+    buyer = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='purchases')
+    product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
+    amount = models.PositiveIntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='On cart')
+    created_on = models.DateTimeField(auto_now_add=True)
