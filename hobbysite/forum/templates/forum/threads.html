@@ -4,12 +4,32 @@
 {% block title %} Forum {% endblock %}
 
 {% block content %}
+    
+    {% if user.is_authenticated %}
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>My Threads</h1>
+            <a href="{% url 'forum:create_thread' %}" class="btn btn-primary">Create Thread</a>
+        </div>
+        <ul>
+            {% for thread in user_threads %}
+                <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }} </a></li>
+            {% empty %}
+                <li>You have not created any threads.</li>
+            {% endfor %}
+        </ul>
+        
+    {% endif %}
+
+    <h1>Other Threads: </h1>
     {% for category in categories %}
-    <h2>{{ category.name }}</h2>
-    <ul>
-        {% for post in category.post_set.all %}
-        <li><a href="{{ post.get_absolute_url }}">{{ post.title }} | {{ post.created_on }} </a></li>
-        {% endfor %}
-    </ul>
+        <h2>{{ category.name }}</h2>
+        <h4>{{ category.description }}</h4>
+            <ul>
+                {% for thread in category.threads %}
+                    <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li>
+                {% empty %}
+                    <li> There are no threads by other users in this Category yet. </li>
+                {% endfor %}
+            </ul>
     {% endfor %}
 {% endblock %}
