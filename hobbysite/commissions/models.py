@@ -36,5 +36,5 @@ class Job(models.Model):
         return f"{self.role} ({self.status})"
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['status', '-manpower_required', 'role']
 
