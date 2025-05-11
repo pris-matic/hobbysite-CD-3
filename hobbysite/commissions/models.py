@@ -1,11 +1,19 @@
 from django.db import models
 
 class Commission(models.Model):
-    title = models.CharField(max_length=255)
+    STATUS_STATES = [
+        ('Open', 'Open'),
+        ('Full', 'Full'),
+        ('Completed', 'Completed'),
+        ('Discountinued', 'Discountinued'),
+    ]
+
+    title = models.CharField(max_length=255)    
     description = models.TextField()
     people_required = models.PositiveIntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, choices=STATUS_STATES, default='Open')
 
     def __str__(self):
         return self.title

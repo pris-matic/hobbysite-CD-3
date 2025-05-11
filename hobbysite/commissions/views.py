@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from .models import Commission  
 
-
 def commissions_list(request):
     commissions = Commission.objects.all()
     ctx = {'commissions': commissions}
