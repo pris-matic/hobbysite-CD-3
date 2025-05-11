@@ -15,6 +15,20 @@
             </li>
             {% endfor %}
         </ol>
+
+        {% if user.is_authenticated %}
+            <h2>Your Commissions</h2>
+            <ul>
+                {% for commission in user_commissions %}
+                    <li>
+                        <a href="{% url 'commission:commission_detail' commission.id}">
+                            {{ commission.title }} (Status: {{ commission.status }})
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>You have not created any commissions yet.</li>
+                {% endfor %}
+            </ul>
     {% else %}
     <p>
         There are no commissions.
