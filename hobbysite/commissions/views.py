@@ -1,9 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Case, When, Value, IntegerField
 from .models import Commission
+from user_management.models import Profile
 
 def commissions_list(request):
     commissions = Commission.objects.all()
-    ctx = {'commissions': commissions}
+
+    status_order = Case(
+        When(status='Open', then=Value(0)),
+        When(status='Full', then=Value(1)),
+        When(status='Completed', then=Value(2)),
+        When(status='Discontinued', then=Value(3)),
+        output_field=IntegerField()
+    )
+    commissions = Commission.objects.annotate(
+        status_order=status_order
+    ).order_by('status_order', '-created_on')
+
+    ctx = {
+        'commissions': commissions
+    }
+
+    if request.user.is_authenticated:
+        profile = get_object_or_404(Profile, user=request.user) 
+        ctx['user_commissions'] = Commission.objects.filter(author=profile)
+        ctx['applied_commissions'] = Commission.objects.filter(
+            job__jobapplication__applicant=profile
+        ).distinct()
+        
     return render(request, 'commissions/commissionsList.html', ctx)
 
 def commission_detail(request, id):
