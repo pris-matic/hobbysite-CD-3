@@ -25,9 +25,9 @@ def commissions_list(request):
         profile = get_object_or_404(Profile, user=request.user) 
         ctx['user_commissions'] = Commission.objects.filter(author=profile)
         ctx['applied_commissions'] = Commission.objects.filter(
-            job__jobapplication__applicant=profile
+            jobs__jobapplication__applicant=profile
         ).distinct()
-        
+
     return render(request, 'commissions/commissionsList.html', ctx)
 
 def commission_detail(request, id):
