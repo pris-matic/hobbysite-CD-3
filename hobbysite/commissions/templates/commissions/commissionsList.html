@@ -21,7 +21,7 @@
             <ul>
                 {% for commission in user_commissions %}
                     <li>
-                        <a href="{% url 'commission:commission_detail' commission.id}">
+                        <a href="{% url 'commissions:commission_detail' commission.id %}">
                             {{ commission.title }} (Status: {{ commission.status }})
                         </a>
                     </li>
@@ -29,9 +29,19 @@
                     <li>You have not created any commissions yet.</li>
                 {% endfor %}
             </ul>
-    {% else %}
-    <p>
-        There are no commissions.
-    </p>
+
+            <h2>Commissions You Applied To</h2>
+            <ul>
+                {% for commission in applied_commissions %}
+                    <li>
+                        <a href="{% url 'commissions:commission_detail' commission.id %}">
+                            {{ commission.title }} (Status: {{ commission.status }})
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>You have not applied to any commissions yet.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
 {% endblock %}
