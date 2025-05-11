@@ -10,7 +10,8 @@ class Commission(models.Model):
         ('Discountinued', 'Discountinued'),
     ]
 
-    title = models.CharField(max_length=255)    
+    title = models.CharField(max_length=255)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)    
     description = models.TextField()
     people_required = models.PositiveIntegerField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -50,7 +51,7 @@ class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_STATES, default='Pending')
-    applied_on = models.DateTimeField(auto_no_add=True,)
+    applied_on = models.DateTimeField(auto_now_add=True,)
 
     def __str__(self):
         return f"{self.applicant.display_name} - {self.status}"
