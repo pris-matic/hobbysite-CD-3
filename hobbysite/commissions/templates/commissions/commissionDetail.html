@@ -1,7 +1,15 @@
-{% extends 'commissionsBase.html' %}
+{% extends 'hobbysite/base.html' %}
 {% load static %}
 
 {% block title %}Details{% endblock %}
+{% block appcss %} 
+<style>
+        div {
+           margin-right: 20px;
+           margin-left: 20px; 
+        }
+</style>
+{% endblock %}
 
 {% block content %}
     <h1>{{ commission.title }}</h1>

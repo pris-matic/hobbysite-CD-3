@@ -1,0 +1,35 @@
+{% extends 'hobbysite/base.html' %}
+{% block title %} Blog Articles {% endblock %}
+{% block appcss %} 
+    <style>
+    h1, h2 {
+        font-family: Spectral, serif;
+        font-weight: bold
+    }
+    p {
+        margin: 20px 20px 20px 20px;
+        text-align: justify;
+        font-family: Rubik, sans-serif;    
+    }
+    small, h3, h6 {
+        font-family: Rubik, sans-serif;
+    }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1> Blog Articles </h1>
+    <ul>
+    {% for category in categories %}
+        <h2> {{ category.name }} </h2> 
+        <small> {{ category.description }} </small>
+        {% for article in category.article_set.all %}
+            <ul>
+                <li> 
+                    <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
+                    <small> Created on: {{ article.created_on }} | Last updated: {{ article.updated_on }} </small>
+                </li>
+            </ul>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,14 +1,53 @@
-{% extends 'wiki/base.html' %}
+{% extends 'hobbysite/base.html' %}
 {% load static %}
 {% block title %}Wiki Article List{% endblock %}
 {% block content %}
-    <h1> Articles </h1>
-    {% for category in categories %}
-    <h2> {{category.name}} </h2>
-        <ul>
-	{% for article in category.article.all %}
-	<li> <a href="{% url 'wiki:article_detail' article.id %}"> {{article.title}} </a> </li>
-	{% endfor %}
-    </ul>
-    {% endfor %}
+    {% if request.user.is_authenticated %}
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> My Articles </h1>
+        <div class="card-body">
+            {% if user_articles.all %}
+            <div class="list-group mb-3">
+	        {% for article in user_articles.all %}
+	        <a class="list-group-item list-group-item-action" href="{% url 'wiki:article_detail' article.id %}"> {{article.title}} </a> 
+	        {% endfor %}
+            </div>
+	    {% else %}
+	    <p class="list-group-item"> No articles.</p>
+	    {% endif %}
+	    <a class="card-link btn btn-primary" href="{%url 'wiki:article_create' %}"> New Article </a>
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> 
+        {% if request.user.is_authenticated %}
+	    Other Articles
+	{% else %}
+	    Articles
+	{% endif %}
+
+	</h1>
+        <div class="row row-cols-1 row-cols-lg-3 p-3 g-3">
+            {% for category in categories %}
+	    {% if category.articles.all %}
+	    <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                <h2 class="card-title"> {{category.name}} </h2>
+                    <div class="list-group">
+                        {% for article in category.articles.all %}
+                        {% if article.author.user != request.user %}
+                        <a class="list-group-item list-group-item-action" href="{% url 'wiki:article_detail' article.id %}"> {{article.title}} </a> 
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            </div>
+	    {% endif %}
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}
