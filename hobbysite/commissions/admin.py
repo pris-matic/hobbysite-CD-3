@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Commission, Comment
-
-# Register your models here.
+from .models import Commission, Job
 
 class CommissionAdmin(admin.ModelAdmin):
     model = Commission
@@ -9,11 +7,11 @@ class CommissionAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     ordering = ('created_on',)
 
-class CommentAdmin(admin.ModelAdmin):
-    model = Comment
-    list_display = ('commission', 'entry', 'created_on', 'updated_on')
-    search_fields = ('commission', 'entry')
-    ordering = ('-created_on',)
+class JobAdmin(admin.ModelAdmin):
+    model = Job
+    list_display = ('commission', 'role', 'manpower_required', 'status')
+    search_fields = ('commission', 'role')
+    ordering = ['status', '-manpower_required', 'role']
 
 admin.site.register(Commission, CommissionAdmin)
-admin.site.register(Comment, CommentAdmin)
+admin.site.register(Job, JobAdmin)
