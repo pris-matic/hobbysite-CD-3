@@ -10,10 +10,11 @@
     <h4>Name: {{ account.name }}</h4>
     <h4>Email: {{ account.email }}</h4>
 
+    <br></br>
     <h3> Edit profile </h3>
     <form method="POST">
         {% csrf_token %}
-        {{ profile.as_p }}
+        {{ profile_form.as_p }}
         <button type="submit">Save</button>
     </form>
 {% endblock %}
