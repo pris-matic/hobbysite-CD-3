@@ -1,5 +1,7 @@
 from django.db import models
 
+from user_management.models import Profile
+
 class Commission(models.Model):
     STATUS_STATES = [
         ('Open', 'Open'),
@@ -37,4 +39,29 @@ class Job(models.Model):
 
     class Meta:
         ordering = ['status', '-manpower_required', 'role']
+    
+class JobApplication(models.Model):
+    STATUS_STATES = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected'),
+    ]
 
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_STATES, default='Pending')
+    applied_on = models.DateTimeField(auto_no_add=True,)
+
+    def __str__(self):
+        return f"{self.applicant.display_name} - {self.status}"
+
+    class Meta:
+        ordering = [
+            models.Case(
+                models.When(status='Pending', then=1),
+                models.When(status='Accepted', then=2),
+                models.When(status='Rejected', then=3),
+                output_field=models.IntegerField()
+                ),
+            '-applied_on'
+        ]
