@@ -33,7 +33,7 @@ class Article(models.Model):
         return reverse('blog:article', args=[self.pk])
     
 class Comment(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, related_name='blog_articles')
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comments')
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
