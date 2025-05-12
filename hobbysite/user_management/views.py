@@ -4,9 +4,6 @@ from .models import Profile
 from .forms import ProfileForm, UserRegisterForm
 from django.contrib.auth import login
 
-def homepage(request):
-    return render(request,'user_management/homepage.html')
-
 def register(request):
     if request.method == 'POST':
         register_form = UserRegisterForm(request.POST)

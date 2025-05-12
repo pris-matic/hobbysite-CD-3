@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'commissions',
     'merchstore',
     'user_management',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
