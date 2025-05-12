@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-)!8v3+wo8ehc2*iad&7usmi54vs5!=%m7%$9b24rynz$y*3!7b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+        "localhost",
+        "bien.jalzate.com"
+        ]
 
 
 # Application definition
@@ -141,3 +144,5 @@ LOGOUT_REDIRECT_URL = '/home'
 
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

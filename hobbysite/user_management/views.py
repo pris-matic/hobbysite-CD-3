@@ -18,14 +18,11 @@ def register(request):
             )
             login(request, user)
 
-            return redirect('user_management:home')
+            return redirect('dashboard:homepage')
     else:
         register_form = UserRegisterForm()
 
     return render(request, 'user_management/register.html', {'register_form': register_form})
-
-def password_reset(request):
-    return render(request, 'user_management/forgetPassword.html')
 
 @login_required
 def update_profile(request):
