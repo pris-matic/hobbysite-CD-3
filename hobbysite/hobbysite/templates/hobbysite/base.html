@@ -13,7 +13,7 @@
             <ul class="navbar-nav">
 	    {% with request.resolver_match.app_name as app_name %}
                 <li class="nav-item">
-			<a class="nav-link rounded {% if app_name == 'home' %}text-bg-primary active{% endif %}" href="{% url 'user_management:home' %}"> Home </a>
+			<a class="nav-link rounded {% if app_name == '' %}text-bg-primary active{% endif %}" href="{% url 'home' %}"> Home </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link rounded {% if app_name == 'forum' %}text-bg-primary active{% endif %}" href="{% url 'forum:get_forum_categories' %}"> Forum </a>
