@@ -31,7 +31,7 @@ def commissions_list(request):
             jobs__jobapplication__applicant=profile
         ).distinct()
 
-    return render(request, 'commissionsList.html', ctx)
+    return render(request, 'commissions/commissionsList.html', ctx)
 
 def commission_detail(request, id):
     commission = get_object_or_404(Commission, id=id)
@@ -54,7 +54,7 @@ def commission_detail(request, id):
                 application.save()
             update_job_status(application.job)
             update_commission_status(commission)
-            return redirect('commissions:commission_detail', id=commission.id)
+            return redirect('commissions/commissions:commission_detail', id=commission.id)
         
     job_id = request.POST.get('job_id')
     if job_id:
@@ -67,7 +67,7 @@ def commission_detail(request, id):
                 status='Pending',
                 applied_on=timezone.now(),
             )
-        return redirect('commissions:commission_detail', id=commission.id)
+        return redirect('commissions/commissions:commission_detail', id=commission.id)
 
     jobs = commission.jobs.all()
     manpower_info = []
@@ -101,7 +101,7 @@ def commission_detail(request, id):
         ).select_related('job', 'applicant')
         ctx['applications'] = applications
 
-    return render(request, 'commissionDetail.html', ctx)
+    return render(request, 'commissions/commissionDetail.html', ctx)
 
 @login_required
 def commission_create(request):
@@ -126,7 +126,7 @@ def commission_create(request):
         form = CommissionForm()
         formset = JobFormSet()
 
-    return render(request, 'commissionCreate.html', {
+    return render(request, 'commissions/commissionCreate.html', {
         'form': form,
         'formset': formset,
     })
@@ -155,7 +155,7 @@ def commission_update(request, id):
         form = CommissionForm(instance=commission)
         formset = JobFormSet(instance=commission)
     
-    return render(request, 'commissionCreate.html', {
+    return render(request, 'commissions/commissionCreate.html', {
         'form': form,
         'formset': formset,
     })
@@ -189,7 +189,7 @@ def job_application_evaluate(request, id):
     else:
         form = JobApplicationForm(instance=application)
 
-    return render(request, 'jobApplications.html', {
+    return render(request, 'commissions/jobApplications.html', {
         'form': form,
         'application': application
     })
