@@ -101,7 +101,7 @@ def commission_detail(request, id):
     return render(request, 'commissions/commissionDetail.html', ctx)
 
 @login_required
-def commission_create_view(request):
+def commission_create(request):
     profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
