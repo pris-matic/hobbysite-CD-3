@@ -1,20 +1,21 @@
-{% extends 'hobbysite/base.html' %}
-{% load static %}
-
+{% extends "hobbysite/base.html" %}
 {% block title %} Profile {% endblock %}
-
 {% block content %}
 
-    <h2> Hobbysite Profile </h2>
-
-    <h4>Name: {{ account.name }}</h4>
-    <h4>Email: {{ account.email }}</h4>
-
-    <br></br>
-    <h3> Edit profile </h3>
-    <form method="POST">
-        {% csrf_token %}
-        {{ profile_form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+<section class="card m-3">
+    <h1 class="card-header text-bg-primary"> Profile </h1>
+    <div class="card-body">
+	<h2> My Hobbysite Profile</h2>
+        <h3>Name: {{ account.name }}</h3>
+        <h3>Email: {{ account.email }}</h3>
+	<div class="card mx-auto mw-100">
+            <h2 class="card-header bg-primary-subtle"> Edit profile </h3>
+	    <form class="card-body" method="POST">
+                {% csrf_token %}
+                {{ profile_form.as_p }}
+                <button class="btn btn-primary type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</section>
 {% endblock %}

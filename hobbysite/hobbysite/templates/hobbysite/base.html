@@ -13,7 +13,7 @@
             <ul class="navbar-nav">
 	    {% with request.resolver_match.app_name as app_name %}
                 <li class="nav-item">
-			<a class="nav-link rounded {% if app_name == '' %}text-bg-primary active{% endif %}" href="{% url 'home' %}"> Home </a>
+			<a class="nav-link rounded {% if app_name == 'dashboard' %}text-bg-primary active{% endif %}" href="{% url 'dashboard:homepage' %}"> Home </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link rounded {% if app_name == 'forum' %}text-bg-primary active{% endif %}" href="{% url 'forum:get_forum_categories' %}"> Forum </a>
@@ -34,15 +34,15 @@
             </ul>
             <ul class="navbar-nav">
 	        {% if user.is_authenticated %}
-                <li class="nav-item">
+		<strong class="navbar-text text-primary">Welcome, {{request.user.profile.name}}!</strong>
+                <li class="nav-item mx-2">
                     <a class="nav-link" href="{% url 'user_management:update_profile' %}"> Profile </a>
                 </li>
-                <li class="nav-item">
 	    	<form method="post" action="{% url 'logout' %}">
 	            {% csrf_token %}
 	            {{ login_form.as_p }}
-                        <button class="btn btn-secondary" type="submit">Logout</button>
-	            </form>
+                    <button class="btn btn-secondary" type="submit">Logout</button>
+	        </form>
 	        {% elif request.path != '/accounts/login/' %}
                 <li class="nav-item">
 	    	<a class="btn btn-primary" href="{% url 'login' %}">Login</a>
