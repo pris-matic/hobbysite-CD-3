@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.db.models import Case, When, Value, IntegerField
 from django.utils import timezone
 from .models import Commission, Job, JobApplication
+from .forms import CommissionForm, JobFormSet, JobApplicationForm
 from user_management.models import Profile
 
 def commissions_list(request):
@@ -97,3 +99,31 @@ def commission_detail(request, id):
         ctx['applications'] = applications
 
     return render(request, 'commissions/commissionDetail.html', ctx)
+
+@login_required
+def commission_create_view(request):
+    profile = get_object_or_404(Profile, user=request.user)
+
+    if request.method == 'POST':
+        form = CommissionForm(request.POST)
+        formset = JobFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
+            commission = form.save(commit=False)
+            commission.author = profile
+            commission.created_on = timezone.now()
+            commission.updated_on = timezone.now()
+            commission.save()
+
+            for job in formset.save(commit=False):
+                job.commission = commission
+                job.save()
+            
+            return redirect('commissions:commission_list')
+    else:
+        form = CommissionForm()
+        formset = JobFormSet()
+
+    return render(request, 'commissionCreate.html', {
+        'form': form,
+        'formset': formset,
+    })
