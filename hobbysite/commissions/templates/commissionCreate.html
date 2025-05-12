@@ -18,9 +18,9 @@
 
     <h2>Jobs</h2>
     {{ formset.management_form }}
-    {% for form in formset %}
+    {% for job_form in formset %}
         <div class="job-form">
-            {{ form.as_p }}
+            {{ job_form.as_p }}
         </div>
     {% endfor %}
 
