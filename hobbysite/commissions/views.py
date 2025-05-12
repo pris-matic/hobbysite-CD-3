@@ -63,5 +63,37 @@ def commission_detail(request, id):
                 applied_on=timezone.now(),
             )
         return redirect('commission:commission_detail', id=commission.id)
-    ctx = {'commission': Commission.objects.get(id=id)}
-    return render(request, 'commissions/commissionDetail.html', ctx)
+
+    jobs = commission.job_set.all()
+    manpower_info = []
+    total_required = 0
+    total_open = 0
+
+    for job in jobs:
+        accepted_count = job.jobapplication_set.filter(status='Accepted').count()
+        open_slots = job.manpower_required - accepted_count
+        already_applied = profile and job.jobapplication_set.filter(applicant=profile).exists()
+        can_apply = open_slots > 0 and not already_applied
+        manpower_info.append((job, open_slots, can_apply))
+
+        total_required += job.manpower_required
+        total_open += open_slots
+
+    is_owner = profile == commission.author if profile else False
+
+    ctx = {
+        'commission': commission,
+        'manpower_info': manpower_info,
+        'total_required': total_required,
+        'total_open': total_open,
+        'application_form': JobApplicationForm(), # fix this later
+        'is_owner': is_owner,
+    }
+
+    if is_owner:
+        applications = JobApplication.objects.filter(
+            job__commission=commission
+        ).select_related('job', 'applicant')
+        ctx['applications'] = applications
+
+    return render(request, 'commission_detailview.html', context)
