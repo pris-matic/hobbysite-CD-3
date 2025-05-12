@@ -4,6 +4,7 @@
 {% block title %} Merchandise Store {% endblock %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <section class="card m-3">
         <h1 class="card-header text-bg-primary"> Your Products </h1>
         <div class="card-body">
@@ -14,6 +15,7 @@
             {% endfor %}
         </div>
     </section>
+    {% endif %}
     
     <section class="card m-3">
         <h1 class="card-header text-bg-primary"> All Products </h1>
