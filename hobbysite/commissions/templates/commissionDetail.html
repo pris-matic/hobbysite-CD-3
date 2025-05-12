@@ -23,14 +23,32 @@
         </div>        
     </section>
 
-    <section class="card m-3">
-        <h3 class="card-header text-bg-primary">Jobs</h3>
-        <div class="card-body">
-            {% for job in commission.jobs.all %}
-            <li><b>{{ job.role }}</b> ({{ job.status }}) — <b>Required:</b> {{ job.manpower_required }} <b>Open:</b> {{ total_open }}</li>
-            {% endfor %}
-        </div>        
-    </section>
+    {% if user.is_authenticated %}
+        <section class="card m-3">
+            <h3 class="card-header text-bg-primary">Jobs</h3>
+            <div class="card-body">
+                <ul>
+                    {% for job, open_slots, can_apply in manpower_info %}
+                    <li>
+                        <b>{{ job.role }}</b> ({{ job.status }}) - <b>Slots open:</b> {{ open_slots }}/{{ job.manpower_required }}
+
+                        {% if not is_owner %}
+                            {% if can_apply %}
+                                <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="job_id" value="{{ job.id }}">
+                                <button type="submit">Apply to Job</button>
+                                </form>
+                            {% else %}
+                                <em>Cannot apply (full or already applied)</em>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
 
     {% if is_owner %}
         <section class="card m-3">
@@ -53,31 +71,6 @@
                 {% empty %}
                     <p>No applications yet.</p>
                 {% endfor %}
-                </ul>
-            </div>
-        </section>
-    {% endif %}
-
-    {% if user.is_authenticated and not is_owner %}
-        <section class="card m-3">
-            <h3 class="card-header text-bg-primary">Apply for a job</h3>
-            <div class="card-body">
-                <ul>
-                    {% for job, open_slots, can_apply in manpower_info %}
-                    <li>
-                        <b>{{ job.role }}</b> ({{ job.status }}) - <b>Slots open:</b> {{ open_slots }}/{{ job.manpower_required }}
-
-                        {% if can_apply %}
-                            <form method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <input type="hidden" name="job_id" value="{{ job.id }}">
-                            <button type="submit">Apply to Job</button>
-                            </form>
-                        {% else %}
-                            <em>Cannot apply (full or already applied)</em>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
                 </ul>
             </div>
         </section>
