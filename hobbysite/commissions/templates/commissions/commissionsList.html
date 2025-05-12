@@ -4,25 +4,7 @@
 {% block title %}Commissions{% endblock title%}
 
 {% block content %}
-    <section class="card m-3">
-        <h1 class="card-header text-bg-primary"> All Commissions </h1>
-        <div class="card-body">
-            <div class="list-group mb-3">
-                {% for commission in commissions %}
-                    <div>
-                        <a class="list-group-item list-group-item-action" href="{% url 'commissions:commission_detail' commission.id %}">
-                        <b>{{ commission.title }}</b> (Status: {{ commission.status }})&nbsp;&nbsp;|&nbsp;&nbsp;
-                        <b>Created On: </b> {{ commission.created_on }}&nbsp;&nbsp;|&nbsp;&nbsp;
-                        <b>by</b> {{ commission.author }}
-                        </a> 
-                    </div>
-                {% empty %}
-                    <p>There are no commissions.</p>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-        
+
     {% if user.is_authenticated %}
         <section class="card m-3">
             <h2 class="card-header text-bg-primary">Your Commissions</h2>
@@ -63,4 +45,24 @@
             </div>
         </section>
     {% endif %}
+
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> All Commissions </h1>
+        <div class="card-body">
+            <div class="list-group mb-3">
+                {% for commission in commissions %}
+                    <div>
+                        <a class="list-group-item list-group-item-action" href="{% url 'commissions:commission_detail' commission.id %}">
+                        <b>{{ commission.title }}</b> (Status: {{ commission.status }})&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>Created On: </b> {{ commission.created_on }}&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>by</b> {{ commission.author }}
+                        </a> 
+                    </div>
+                {% empty %}
+                    <p>There are no commissions.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    
 {% endblock %}
