@@ -26,10 +26,14 @@ def commissions_list(request):
 
     if request.user.is_authenticated:
         profile = get_object_or_404(Profile, user=request.user) 
-        ctx['user_commissions'] = Commission.objects.filter(author=profile)
+        ctx['user_commissions'] = Commission.objects.filter(author=profile).annotate(
+            status_order=status_order
+        ).order_by('status_order', '-created_on')
         ctx['applied_commissions'] = Commission.objects.filter(
             jobs__jobapplication__applicant=profile
-        ).distinct()
+        ).distinct().annotate(
+            status_order=status_order
+        ).order_by('status_order', '-created_on')
 
     return render(request, 'commissions/commissionsList.html', ctx)
 
