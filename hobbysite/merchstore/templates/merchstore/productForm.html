@@ -4,10 +4,14 @@
 {% block title %} Merchandise Store {% endblock %}
 
 {% block content %}
-    <h2>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Product</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> {% if form.instance.pk %}Edit{% else %}Add{% endif %} Product </h1>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+        </div>
+    </section>
 {% endblock %}
