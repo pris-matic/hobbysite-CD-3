@@ -141,7 +141,7 @@ def commission_update(request, id):
             commission = form.save(commit=False)
             commission.updated_on = timezone.now()
             commission.save()
-            formset.save
+            formset.save()
             
             all_full = all(job.status == 'Full' for job in commission.jobs.all())
             if all_full and commission.status != 'Full':
