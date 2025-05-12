@@ -15,15 +15,15 @@ class JobAdmin(admin.ModelAdmin):
 
 class JobApplicationAdmin(admin.ModelAdmin):
     model = JobApplication
-    list_display = ('job', 'get_applicant_display_name', 'get_applicant_username', 'status', 'applied_on')
+    list_display = ('job', 'get_applicant_name', 'get_applicant_username', 'status', 'applied_on')
     list_filter = ('status', 'applied_on')
-    search_fields = ('job__role', 'applicant__display_name', 'applicant__user__username')
+    search_fields = ('job__role', 'applicant__name', 'applicant__user__username')
     ordering = ('status', '-applied_on')
 
-    def get_applicant_display_name(self, obj):
+    def get_applicant_name(self, obj):
         return obj.applicant.name
     
-    get_applicant_display_name.short_description = 'Applicant Name'
+    get_applicant_name.short_description = 'Applicant Name'
 
     def get_applicant_username(self, obj):
         return obj.applicant.user.username
