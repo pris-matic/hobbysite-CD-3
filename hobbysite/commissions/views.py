@@ -118,12 +118,12 @@ def commission_create_view(request):
                 job.commission = commission
                 job.save()
             
-            return redirect('commissions:commission_list')
+            return redirect('commissions:commissions_list')
     else:
         form = CommissionForm()
         formset = JobFormSet()
 
-    return render(request, 'commissionCreate.html', {
+    return render(request, 'commissions/commissionCreate.html', {
         'form': form,
         'formset': formset,
     })
