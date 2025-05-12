@@ -4,47 +4,55 @@
 {% if article.header_image %}
     <img src="{{ article.header_image.url }}" alt="" height="400" width="100%">
 {% endif %}
-<h1> {{ article.title }} </h1>
-<h3> {{ article.category }} </h3>
-<h6> 
-    Author: {{ article.author.name }} <br>
-    Created on {{ article.created_on }} <br>
-    Last updated {{ article.updated_on }}
-</h6>
-    <p> {{ article.entry|linebreaks }} </p>
 
-{% if request.user.profile == article.author %}
-    <a href="{% url 'blog:article_update' article.pk %}"> <button> Edit </button></a>
-{% endif %}
+<section class="card m-3">
+    <h1 class="card-header text-bg-primary"> {{ article.title }} </h1>
+    <div class="card-body">
+        <h3> {{ article.category }} </h3>
+        <h6>
+            Author: {{ article.author.name }} <br>
+            Created on {{ article.created_on }} <br>
+            Last updated {{ article.updated_on }}
+        </h6>
+        <p> {{ article.entry|linebreaks }} </p>
+        {% if request.user.profile == article.author %}
+            <a class="btn btn-primary" href="{% url 'blog:article_update' article.pk %}"> Edit </a>
+        {% endif %}
+    </div>
+</section>
 
-<hr>
-{% if user.is_authenticated %}
-    <h6> Post a comment under this article! </h6>
-    <form method="post">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <button type="submit" name="comment"> Post </button>
-    </form>
-{% endif %}
+<section class="card m-3">
+    <h4 class="card-header text-bg-primary"> Comments </h4>
+    <div class="card-body">
+        {% if user.is_authenticated %}
+            <h6> Post a comment under this article! </h6>
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <button class="btn btn-primary" type="submit" name="comment"> Post </button>
+            </form> <br>
+        {% endif %}
+        {% if comments %}
+            {% for comment in comments %}
+                <li>
+                    {{ comment.author.name }} ({{ comment.created_on }}): {{ comment.entry }}
+                </li>
+            {% endfor %}
+        {% else %}
+            Be the first to comment on this article!
+        {% endif %}
+    </div>
+</section>
 
-
-<h6> Comments </h6>
-{% if comments %}
-    {% for comment in comments %}
-        <li>
-            {{ comment.author.name }} ({{ comment.created_on }}): {{ comment.entry }}
-        </li>
-    {% endfor %}
-{% else %}
-    Be the first to comment on this article!
-{% endif %}
-
-<hr>
-<h6> Read more from {{ article.author.name }} </h6>
-<ul> 
-{% for article in author_articles %}
-    <li> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </li>
-{% endfor %}
-</ul>
-<a href="{% url 'blog:blog_categories' %}"> <button type='button'> Back to Blog Articles List </button> </a>
+<section class="card m-3">
+    <h4 class="card-header text-bg-primary"> Read more from {{ article.author.name }} </h4>
+<div class="card-body">
+    <ul>
+        {% for article in author_articles %}
+            <li> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </li>
+        {% endfor %}
+    </ul>
+    <a class="mt-3 btn btn-primary" href="{% url 'blog:blog_categories' %}"> Back to Blog Articles List </a>
+</div>
+</section>
 {% endblock %}
