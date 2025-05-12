@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Case, When, Value, IntegerField
 from django.utils import timezone
+from django.http import HttpResponseForbidden
 from .models import Commission, Job, JobApplication
 from .forms import CommissionForm, JobFormSet, JobApplicationForm
 from user_management.models import Profile
@@ -88,7 +89,7 @@ def commission_detail(request, id):
         'manpower_info': manpower_info,
         'total_required': total_required,
         'total_open': total_open,
-        # 'application_form': JobApplicationForm(), # fix this later
+        'application_form': JobApplicationForm(),
         'is_owner': is_owner,
     }
 
@@ -157,3 +158,36 @@ def commission_update(request, id):
         'formset': formset,
     })
 
+@login_required
+def job_application_evaluate(request, id):
+    application = get_object_or_404(JobApplication, id=id)
+    commission = application.job.commission
+
+    if commission.author.user != request.user:
+        return HttpResponseForbidden("You are not allowed to evaluate this application.")
+
+    if request.method == 'POST':
+        form = JobApplicationForm(request.POST, instance=application)
+        if form.is_valid():
+            app = form.save()
+            
+            job = app.job
+            accepted_count = job.jobapplication_set.filter(status='Accepted').count()
+            if accepted_count >= job.manpower_required:
+                job.status = 'Full'
+            else:
+                job.status = 'Open'
+            job.save()
+
+            commission_full = all(j.status == 'Full' for j in commission.jobs.all())
+            commission.status = 'Full' if commission_full else 'Open'
+            commission.save()
+
+            return redirect('commissions:commissions_list')
+    else:
+        form = JobApplicationForm(instance=application)
+
+    return render(request, 'commissions/jobApplications.html', {
+        'form': form,
+        'application': application
+    })
