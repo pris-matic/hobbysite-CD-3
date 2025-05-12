@@ -52,6 +52,8 @@ def commission_detail(request, id):
             elif action == 'reject':
                 application.status = 'Rejected'
                 application.save()
+            update_job_status(application.job)
+            update_commission_status(commission)
             return redirect('commissions:commission_detail', id=commission.id)
         
     job_id = request.POST.get('job_id')
@@ -191,3 +193,16 @@ def job_application_evaluate(request, id):
         'form': form,
         'application': application
     })
+
+# helper functions for updating jobs and commissions statuses
+def update_job_status(job):
+    accepted_count = job.jobapplication_set.filter(status='Accepted').count()
+    job.status = 'Full' if accepted_count >= job.manpower_required else 'Open'
+    job.save()
+
+def update_commission_status(commission):
+    if all(job.status == 'Full' for job in commission.jobs.all()):
+        commission.status = 'Full'
+    else:
+        commission.status = 'Open'
+    commission.save()
