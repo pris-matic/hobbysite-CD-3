@@ -127,3 +127,33 @@ def commission_create(request):
         'form': form,
         'formset': formset,
     })
+
+@login_required
+def commission_update(request, id):
+    profile = get_object_or_404(Profile, user=request.user)
+    commission = get_object_or_404(Commission, id=id, author=profile)
+
+    if request.method == 'POST':
+        form = CommissionForm(request.POST, instance=commission)
+        formset = JobFormSet(request.POST, instance=commission)
+        if form.is_valid() and formset.is_valid():
+            commission = form.save(commit=False)
+            commission.updated_on = timezone.now()
+            commission.save()
+            formset.save
+            
+            all_full = all(job.status == 'Full' for job in commission.jobs.all())
+            if all_full and commission.status != 'Full':
+                commission.status = 'Full'
+                commission.save()
+
+            return redirect('commissions:commissions_list')
+    else:
+        form = CommissionForm(instance=commission)
+        formset = JobFormSet(instance=commission)
+    
+    return render(request, 'commissions/commissionCreate.html', {
+        'form': form,
+        'formset': formset,
+    })
+
