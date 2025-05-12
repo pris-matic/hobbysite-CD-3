@@ -24,6 +24,8 @@
                         <a href="{% url 'commissions:commission_detail' commission.id %}">
                             {{ commission.title }} (Status: {{ commission.status }})
                         </a>
+                        <a></a>
+                        <a href="{% url 'commissions:commission_update' commission.id %}">Edit</a>
                     </li>
                 {% empty %}
                     <li>You have not created any commissions yet.</li>
