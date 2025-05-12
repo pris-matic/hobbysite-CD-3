@@ -64,6 +64,7 @@
         </ul>
     {% endif %}
     <footer>
+        <a href = "{% url 'commissions:commission_update' commission.id %}" class="button">Edit Commission</a>
         <a href = "{% url 'commissions:commissions_list' %}" class="button">Return to Commissions List</a>
 
         <style>
