@@ -58,7 +58,7 @@ def commission_detail(request, id):
                 application.save()
             update_job_status(application.job)
             update_commission_status(commission)
-            return redirect('commissions/commissions:commission_detail', id=commission.id)
+            return redirect('commissions:commission_detail', id=commission.id)
         
     job_id = request.POST.get('job_id')
     if job_id:
@@ -71,7 +71,7 @@ def commission_detail(request, id):
                 status='Pending',
                 applied_on=timezone.now(),
             )
-        return redirect('commissions/commissions:commission_detail', id=commission.id)
+        return redirect('commissions:commission_detail', id=commission.id)
 
     jobs = commission.jobs.all()
     manpower_info = []
