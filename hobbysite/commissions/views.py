@@ -49,7 +49,7 @@ def commission_detail(request, id):
             elif action == 'reject':
                 application.status = 'Rejected'
                 application.save()
-            return redirect('commission:comission_detail', id=commission.id)
+            return redirect('commissions:commission_detail', id=commission.id)
         
     job_id = request.POST.get('job_id')
     if job_id:
@@ -62,9 +62,9 @@ def commission_detail(request, id):
                 status='Pending',
                 applied_on=timezone.now(),
             )
-        return redirect('commission:commission_detail', id=commission.id)
+        return redirect('commissions:commission_detail', id=commission.id)
 
-    jobs = commission.job_set.all()
+    jobs = commission.jobs.all()
     manpower_info = []
     total_required = 0
     total_open = 0
@@ -86,7 +86,7 @@ def commission_detail(request, id):
         'manpower_info': manpower_info,
         'total_required': total_required,
         'total_open': total_open,
-        'application_form': JobApplicationForm(), # fix this later
+        # 'application_form': JobApplicationForm(), # fix this later
         'is_owner': is_owner,
     }
 
@@ -96,4 +96,4 @@ def commission_detail(request, id):
         ).select_related('job', 'applicant')
         ctx['applications'] = applications
 
-    return render(request, 'commission_detailview.html', context)
+    return render(request, 'commissions/commissionDetail.html', ctx)
