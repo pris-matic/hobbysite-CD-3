@@ -1,0 +1,17 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Merchandise Store {% endblock %}
+
+{% block content %}
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> {% if form.instance.pk %}Edit{% else %}Add{% endif %} Product </h1>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

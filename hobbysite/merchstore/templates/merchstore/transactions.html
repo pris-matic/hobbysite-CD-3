@@ -1,0 +1,20 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Merchandise Store {% endblock %}
+
+{% block content %}
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> Your Cart </h1>
+        <div class="card-body">
+            {% for owner, transactions in grouped_transactions.items %}
+                <h3>From {{ owner.display_name }}</h3>
+                <ul>
+                    {% for tx in transactions %}
+                        <li>{{ tx.product.name }} - {{ tx.amount }} pcs - {{ tx.status }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
