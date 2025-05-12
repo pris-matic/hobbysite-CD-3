@@ -21,6 +21,13 @@
         <li><b>Last Updated:</b> {{ commission.updated_on }}</li>
     </ul>
 
+    <h3>Jobs</h3>
+    <ul>
+        {% for job in commission.jobs.all %}
+        <li><b>{{ job.role }}</b> ({{ job.status }}) — <b>Required:</b> {{ job.manpower_required }} <b>Open:</b> {{ total_open }}</li>
+        {% endfor %}
+    </ul>
+
     {% if is_owner %}
         <h3>Job Application</h3>
         <ul>
