@@ -4,47 +4,63 @@
 {% block title %}Commissions{% endblock title%}
 
 {% block content %}
-    <h1>Commissions: </h1>
-    {% if commissions %}
-        <ol>
-            {% for commission in commissions %}
-            <li>
-                <div>
-                    <p><a href="{% url 'commissions:commission_detail' commission.id %}">{{ commission.title }} (Status: {{ commission.status }})</a>  |  <b>Created On: </b> {{ commission.created_on }}</p>
-                </div>
-            </li>
-            {% endfor %}
-        </ol>
-
-        {% if user.is_authenticated %}
-            <h2>Your Commissions</h2>
-            <ul>
-                {% for commission in user_commissions %}
-                    <li>
-                        <a href="{% url 'commissions:commission_detail' commission.id %}">
-                            {{ commission.title }} (Status: {{ commission.status }})
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> All Commissions </h1>
+        <div class="card-body">
+            <div class="list-group mb-3">
+                {% for commission in commissions %}
+                    <div>
+                        <a class="list-group-item list-group-item-action" href="{% url 'commissions:commission_detail' commission.id %}">
+                        <b>{{ commission.title }}</b> (Status: {{ commission.status }})&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>Created On: </b> {{ commission.created_on }}&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>by</b> {{ commission.author }}
+                        </a> 
+                    </div>
+                {% empty %}
+                    <p>There are no commissions.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+        
+    {% if user.is_authenticated %}
+        <section class="card m-3">
+            <h2 class="card-header text-bg-primary">Your Commissions</h2>
+            <div class="card-body">
+                <div class="list-group mb-3">
+                    {% for commission in user_commissions %}
+                    <div>
+                        <a class="list-group-item list-group-item-action" href="{% url 'commissions:commission_detail' commission.id %}">
+                        <b>{{ commission.title }}</b> (Status: {{ commission.status }})&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>Created On: </b> {{ commission.created_on }}
                         </a>
-                        <a></a>
-                        <a href="{% url 'commissions:commission_update' commission.id %}">Edit</a>
-                    </li>
+                    </div>
                 {% empty %}
                     <li>You have not created any commissions yet.</li>
                 {% endfor %}
+                    <p> </p>
                     <p><a href="{% url 'commissions:commission_create' %}" class="btn btn-primary">Add New Commission</a></p>
-            </ul>
+                </div>
+            </div>
+        </section>
 
-            <h2>Commissions You Applied To</h2>
-            <ul>
-                {% for commission in applied_commissions %}
-                    <li>
-                        <a href="{% url 'commissions:commission_detail' commission.id %}">
-                            {{ commission.title }} (Status: {{ commission.status }})
+        <section class="card m-3">
+            <h2 class="card-header text-bg-primary">Commissions You Applied To</h2>
+            <div class="card-body">
+                <div class="list-group mb-3">
+                    {% for commission in applied_commissions %}
+                    <div>
+                        <a class="list-group-item list-group-item-action" href="{% url 'commissions:commission_detail' commission.id %}">
+                        <b>{{ commission.title }}</b> (Status: {{ commission.status }})&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>Created On: </b> {{ commission.created_on }}&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <b>by</b> {{ commission.author }}
                         </a>
-                    </li>
+                    </div>
                 {% empty %}
-                    <p>You have not applied to any commissions yet.</p>
+                    <li>You have not applied to any commissions yet.</li>
                 {% endfor %}
-            </ul>
-        {% endif %}
+                </div>
+            </div>
+        </section>
     {% endif %}
 {% endblock %}
