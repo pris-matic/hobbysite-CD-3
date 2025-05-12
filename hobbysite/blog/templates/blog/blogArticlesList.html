@@ -1,51 +1,54 @@
 {% extends 'hobbysite/base.html' %}
+{% load static %}
 {% block title %} Blog Articles {% endblock %}
+
 {% block content %}
-    <h1> Blog Articles </h1>
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'blog:article_create' %}"> <button type='button'> Create an Article </button> </a>
-        <h2> Your Articles </h2>
-        {% if request.user.profile.article_set %}
-            {% for category in categories %}
-            <ul>
-                <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
-                {% for article in category.article_set.all %}
-                    {% if article.author == request.user.profile %}
-                    <ul> <li>
-                        <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
-                    </li> </ul>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-            {% endfor %}
-        {% else %}
-            <p> You haven't written any articles yet. </p>
-        {% endif %}
-        <h2> Other Articles </h2>
-        {% for category in categories %}
-        <ul>
-            <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
-            {% for article in category.article_set.all %}
-                {% if article.author != request.user.profile %}
-                <ul> <li>
-                    <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
-                </li> </ul>
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> Blog Articles </h1>
+        <div class="card-body">
+            {% if request.user.is_authenticated %}
+                <a class="btn btn-primary mb-3" href="{% url 'blog:article_create' %}"> Create an Article </a>
+                <h2 class="card-header text-bg-primary"> Your Articles </h2>
+                {% if request.user.profile.article_set.all %}
+                    <div class="list-group mb-4">
+                        {% for article in request.user.profile.article_set.all %}
+                            <a class="list-group-item list-group-item-action" href="{% url 'blog:article' article.pk %}">
+                                {{ article.title }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="list-group-item"> You haven't written any articles yet. </p>
                 {% endif %}
-            {% endfor %}
-        </ul>
-        {% endfor %}
+                <h2 class="card-header text-bg-primary"> Other Articles </h2>
 
-    {% else %}
+            {% else %}
+                <h2 class="card-header text-bg-primary"> All Articles </h2>
+            {% endif %}
+
+        <div class="row row-cols-1 row-cols-lg-3 g-3">
         {% for category in categories %}
-        <ul>
-            <h2> {{ category.name }} </h2> <small> {{ category.description }} </small>
-            {% for article in category.article_set.all %}
-                <ul> <li>
-                    <strong> <a href="{% url 'blog:article' article.pk %}"> {{ article.title }} </a> </strong>
-                </li> </ul>
-            {% endfor %}
-        </ul>
+            {% if category.article_set.all %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                        <h2 class="card-title"> {{ category.name }} </h2>
+                        <small class="d-block mb-2"> {{ category.description }} </small>
+                            <div class="list-group">
+                                {% for article in category.article_set.all %}
+                                    {% if not request.user.is_authenticated or article.author != request.user.profile %}
+                                        <a class="list-group-item list-group-item-action" href="{% url 'blog:article' article.pk %}">
+                                            {{ article.title }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
-    {% endif %}
-
+        </div>
+        </div>
+    </section>
 {% endblock %}

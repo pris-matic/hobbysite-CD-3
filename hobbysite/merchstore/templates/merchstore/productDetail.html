@@ -1,0 +1,30 @@
+{% extends 'hobbysite/base.html' %}
+{% load static %}
+
+{% block title %} Merchandise Store {% endblock %}
+
+{% block content %}
+    <section class="card m-3">
+        <h1 class="card-header text-bg-primary"> {{ product.name }} </h1>
+        <div class="card-body">
+            <p>{{ product.description }}</p>
+            <p>Price: ${{ product.price }}</p>
+            <p>Stock: {{ product.stock }}</p>
+            <p>Status: {{ product.status }}</p>
+        
+            {% if is_owner %}
+                <a class="btn btn-primary" href="{% url 'merchstore:product_update' product.id %}">Edit</a>
+            {% else %}
+                {% if product.stock > 0 %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-success" type="submit">Buy</button>
+                    </form>
+                {% else %}
+                    <button class="btn btn-secondary" disabled>Out of Stock</button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
