@@ -1,0 +1,19 @@
+{% extends "hobbysite/base.html" %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<section class="card m-3">
+    <h1 class="card-header text-bg-primary"> Login </h1>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+	<div class="my-3">
+        <p>Don't have an account? <a class="btn btn-primary" href="{% url 'user_management:register' %}">Register here</a></p>
+        <p>Forgot your password? <a class="btn btn-secondary" href="{% url 'password_reset' %}">Reset password</a></p>
+	</div>
+    </div>
+</section>
+
+{% endblock %}
