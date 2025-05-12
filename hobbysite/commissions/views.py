@@ -148,7 +148,7 @@ def commission_update(request, id):
                 commission.status = 'Full'
                 commission.save()
 
-            return redirect('commissions:commissions_list')
+            return redirect('commissions:commission_detail', id=commission.id)
     else:
         form = CommissionForm(instance=commission)
         formset = JobFormSet(instance=commission)
