@@ -33,10 +33,7 @@ DEBUG = os.environ.get('DEBUG') == "True"
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
-if DEBUG:
-    ALLOWED_HOSTS = ["bien.jalzate.com"]
-else:
-    ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["bien.jalzate.com", "localhost"]
 
 
 # Application definition
