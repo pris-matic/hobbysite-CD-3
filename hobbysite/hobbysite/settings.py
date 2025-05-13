@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'hobbysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get("PSQL_DB_NAME"),
         'USER': os.environ.get("PSQL_DB_USER"),
         'PASSWORD': os.environ.get("PSQL_DB_PWD"),
