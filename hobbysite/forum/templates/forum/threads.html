@@ -22,13 +22,13 @@
     {% endif %}
 
     <section class="card m-3">
-    {% if user.is_authenticated %}
         <h1 class="card-header text-bg-primary"> 
-        Other Threads
-    {% else %}
-        Threads
-    {% endif %}
-    </h1>
+            {% if user.is_authenticated %}
+                Other Threads
+            {% else %}
+                Threads
+            {% endif %}
+        </h1>
 
     <div class="row row-cols-1 row-cols-lg-3 p-3 g-3">
     {% for category in categories %}
