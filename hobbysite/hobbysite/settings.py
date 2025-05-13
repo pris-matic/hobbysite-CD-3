@@ -29,10 +29,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == "True"
 
-ALLOWED_HOSTS = [
-        "localhost",
-        "bien.jalzate.com"
-        ]
+# Cookie Security
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+if DEBUG:
+    ALLOWED_HOSTS = ["bien.jalzate.com"]
+else:
+    ALLOWED_HOSTS = ["localhost"]
+
 
 # Application definition
 
@@ -148,3 +153,4 @@ MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
